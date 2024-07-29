@@ -1,0 +1,251 @@
+#login1{
+  padding-top: 80px;
+}
+
+.vikingo{
+  font-family: "Viking";
+  letter-spacing: 2px;
+}
+
+#h1Login{
+  color: whitesmoke;
+  padding-top: 5px;
+  font-family: "Viking";
+  
+}
+
+
+/* region index */
+#loginIMG {
+    width: 200px;
+    padding-bottom: 40px;
+}
+
+#bodyLogin {
+    background-color: #04448c;
+}
+
+#centrador {
+    display: flex;
+    justify-content: center;
+}
+/* fin region index */
+
+
+
+
+.navbar {
+    margin: 0 auto;
+    display: table !important;
+    text-align: center;
+
+}
+/* #dex{
+  width: 230px;
+  justify-content: end !important;
+} */
+#spanNombre{
+  /* color: #ffc107; */
+  color: #a6a2a4;
+ 
+  margin-right: 20px;
+  /* font-size: 10px; */
+}
+#blanco{
+    color: white;
+}
+
+#agotado{
+  cursor: not-allowed;
+  color: white;
+  opacity: 0.5; 
+  transition: opacity 0.3s;
+}
+#agotado:hover {
+  opacity: 0; 
+}
+
+#solojefes{
+  cursor: not-allowed;
+  opacity: 0.5; 
+  transition: opacity 0.3s;
+  
+}
+#solojefes :hover {
+  cursor: not-allowed;
+}
+
+
+#azul{
+    background-color: #04448c;
+}
+
+#logoHeader{ 
+    width: 80px;
+    align-items: center;
+}
+
+.imagenCabecera{
+    width: 50px ;
+    height: 50px ;
+}
+
+
+
+
+/* Region footer */
+footer{
+    /* position: absolute; */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: white;
+    /* margin-bottom: 0rem !important; */
+}
+#spanFooter{
+  padding-right: 20px;
+}
+.iconoBlanco{
+  color: white;
+  padding-right: 4px;
+}
+/* fin region footer */
+
+
+
+
+
+/* region contabilidad */
+#btnContabilidad{
+  height: 40px;
+  width: 155px;
+}
+.spacer {
+  width: 40px; /* Ajusta el ancho del espacio según tus necesidades */
+}
+/* fin region contabilidad */
+
+
+
+/* region Carousel */
+.carousel-inner img {
+  max-height: 600px; /* establece la altura máxima en 500px */
+}
+
+.carousel-item{
+  height: 32rem; /*512px*/
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+}
+
+.carousel-item img{
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+/* fin region Carousel */
+
+
+
+
+
+
+/* Mapa y datos aso */
+#datoAso{
+  /* height: 350px; */
+  max-height: max-content;
+  /* font-size: 1.1em; */
+  font-size: 120%;
+
+}
+.datoAso2{
+  height: 365px;
+}
+
+#mapaDatos{
+  background-image: url("./img/joven50.png");
+  background-repeat: no-repeat; 
+  background-size: cover;
+  /* color: #074e9e; */
+  /* color: #e029e6; */
+
+}
+/* fin Mapa y datos aso */
+
+
+
+
+
+
+
+/* Region Cronometro */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  #bodyCrono{
+    display: grid;
+    place-items: end;
+    align-content: space-between;
+}
+  #sectionCrono {
+    width: auto;
+    /* min-height: 100vh; */
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    /* flex-direction: column; */
+    background-color: #333;
+    border-radius: 40px;
+  }
+
+  .countdown {
+    display: flex;
+    justify-content: space-evenly;
+    /* width: 50%; */
+    flex-wrap: wrap;
+  }
+
+  .countdown div {
+    display: grid;
+    place-items: center;
+    padding: 10px;
+  }
+
+  .pCrono {
+    display: grid;
+    place-items: center;
+    border: solid 1px #fff;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: #357ccc;
+  }
+
+  .spanCrono {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    color: #dff0ed;
+    font-size: 1.5rem;
+    font-weight: 400;
+    width: 130px;
+  }
+/* Fin region cronometro */
+
+
+/* region gráfica */
+#grafica{
+  width: auto;
+  max-height: 464px;
+}
+
+/* fin region gráfica */
+
+
