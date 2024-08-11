@@ -3,7 +3,7 @@ CREATE DATABASE ligaRunaBlanca
     DEFAULT CHARACTER SET = 'utf8mb4';
 
 
-drop Table juegos;
+-- drop Table juegos;
 
 create table jugadores (
     idJugador INT AUTO_INCREMENT PRIMARY KEY,
@@ -97,7 +97,16 @@ create Table fechas(
 
     
 
+create Table fechasPartidas(
+    idfechaPartida INT AUTO_INCREMENT PRIMARY key,
+    fecha DATE NOT NULL
+) engine=innodb;
+
+INSERT into fechasPartidas (fecha) VALUES ("2024-9-29"), ("2024-9-19"), ("2024-10-29"),("2024-11-29"), ("2024-12-29");
 
 
 
+SELECT DATE_FORMAT(fecha, '%d, %M %Y') AS fecha_formateada
+FROM fechasPartidas 
+ORDER BY MONTH(fecha), DAY(fecha);
 

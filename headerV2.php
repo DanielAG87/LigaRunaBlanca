@@ -41,30 +41,27 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="blanco" aria-current="page" href="inicio.php">Inicio</a>
+                                    <a class="nav-link" id="blanco" aria-current="page" href="inicio.php">Inicio</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="blanco" href="torneos.php">Actividades</a>
+                                    <a class="nav-link" id="blanco" href="ProximasPartidas.php">Próximas Partidas</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="blanco" href="inventario.php">Inventario</a>
+                                    <a class="nav-link" id="blanco" href="inventario.php">Juegos</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" id="blanco" href="contabilidad.php">Clasificación</a>
                                 </li>
 
                                 <?php
                                 if ("Si" == "Si") { ?>
+                                    
                                     <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="contabilidad.php">Contabilidad</a>
-
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="socios.php">Socios</a>
+                                        <a class="nav-link" id="blanco" href="socios.php">Gestion Liga</a>
                                     </li> <?php
                                         } else { ?>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="agotado">Contabilidad</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="agotado">Socios</a>
+                                        <a class="nav-link" id="agotado">Gestion Liga</a>
                                     </li>
                                 <?php } ?>
 

@@ -3,23 +3,18 @@
                 <footer class="py-3 my-4">
                     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
                         <li class="nav-item"><a href="inicio.php" class="nav-link px-2  text-white">Inicio</a></li>
-                        <li class="nav-item"><a href="torneos.php" class="nav-link px-2 text-white">Actividades</a></li>
-                        <li class="nav-item"><a href="inventario.php" class="nav-link px-2 text-white">Inventario</a></li>
+                        <li class="nav-item"><a href="ProximasPartidas.php" class="nav-link px-2 text-white">Próximas Partidas</a></li>
+                        <li class="nav-item"><a href="inventario.php" class="nav-link px-2 text-white">Juegos</a></li>
+                        <li class="nav-item"><a href="contabilidad.php" class="nav-link px-2 text-white">Clasificación</a></li>
                         <?php
                                 if ("Si" == "Si") { ?>
+                                 
                                     <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="contabilidad.php">Contabilidad</a>
-
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="socios.php">Socios</a>
+                                        <a class="nav-link" id="blanco" href="socios.php">Gestion Liga</a>
                                     </li> <?php
                                         } else { ?>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="agotado">Contabilidad</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="agotado">Socios</a>
+                                        <a class="nav-link" id="agotado">Gestion Liga</a>
                                     </li>
                                 <?php } ?>
                     </ul>
