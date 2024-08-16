@@ -47,7 +47,7 @@
                                     <a class="nav-link" id="blanco" href="ProximasPartidas.php">Próximas Partidas</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="blanco" href="inventario.php">Juegos</a>
+                                    <a class="nav-link" id="blanco" href="juegos.php">Juegos</a>
                                 </li>
                                 <li class="nav-item">
                                         <a class="nav-link" id="blanco" href="contabilidad.php">Clasificación</a>
