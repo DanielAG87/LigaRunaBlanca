@@ -19,7 +19,7 @@ mysqli_close($con);
                 <span>Jugadores: <?= $j[3] ?>-<?= $j[4] ?></span><br />
                 <span>Edad mínima: <?= $j[6] ?></span><br />
                 <button class="btn btn-outline-primary">
-                    <a href="<?php echo $j[9] ?>" download="Reglas <?= $j[1] ?>"> Descargar Manual </a>
+                    <a href="<?php echo $j[9] ?>" download="Reglas <?= $j[1] ?>" style="text-decoration: none;"> Descargar Manual </a>
                 </button>
             </div>
         <?php } ?>
