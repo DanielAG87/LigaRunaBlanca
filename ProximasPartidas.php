@@ -94,19 +94,11 @@ mysqli_close($con); ?>
     </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 <?php include("footer.php"); ?>
+
+
+
+
 
 
 <script>
