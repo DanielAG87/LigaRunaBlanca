@@ -1,9 +1,16 @@
 -- Active: 1718017247649@@127.0.0.1@3307
+
+
+
+-- para configurar la base de datos en español
+-- SET lc_time_names = 'es_ES';
+
+
 CREATE DATABASE ligaRunaBlanca
     DEFAULT CHARACTER SET = 'utf8mb4';
 
 
- drop Table juegos;
+--  drop Table fechas;
 
 create table jugadores (
     idJugador INT AUTO_INCREMENT PRIMARY KEY,
@@ -60,6 +67,28 @@ INSERT INTO juegos (nombre, editorial, minJugadores, maxJugadores,  mecanica, ed
     ("Wingspan", "Stonemaier Games", 1, 5, "Gestion de mano, Drafting", 10, "Asociacion", "./img/juegos/wingspan.jpg", "./reglamentos_Liga/wingspan-instrucciones_.pdf"),
     ("Noria", "Devir", 2, 4, "Colocación de trabajadores", 12, "Asociacion", "./img/juegos/noria.jpg", "./reglamentos_Liga/nada.txt");
 
+
+    
+
+create Table fechasPartidas(
+    idfechaPartida INT AUTO_INCREMENT PRIMARY key,
+    fecha DATE NOT NULL
+) engine=innodb;
+
+INSERT into fechasPartidas (fecha) VALUES ("2024-9-29"), ("2024-9-19"), ("2024-10-29"),("2024-11-29"), ("2024-12-29");
+INSERT into fechasPartidas (fecha) VALUES ("2024-6-29");
+
+
+SELECT DATE_FORMAT(fecha, '%d-%M-%Y') AS fecha_formateada
+FROM fechasPartidas 
+ORDER BY MONTH(fecha), DAY(fecha);
+
+
+
+
+
+-- pendiente de revisar TO DO
+
 create table partida(
     idpartida INT AUTO_INCREMENT PRIMARY KEY,
     juego INT NOT NULL,
@@ -95,19 +124,3 @@ create Table fechas(
     fecha DATE NOT NULL,
     participantes INT
 ) engine=innodb;
-
-    
-
-create Table fechasPartidas(
-    idfechaPartida INT AUTO_INCREMENT PRIMARY key,
-    fecha DATE NOT NULL
-) engine=innodb;
-
-INSERT into fechasPartidas (fecha) VALUES ("2024-9-29"), ("2024-9-19"), ("2024-10-29"),("2024-11-29"), ("2024-12-29");
-
-
-
-SELECT DATE_FORMAT(fecha, '%d, %M %Y') AS fecha_formateada
-FROM fechasPartidas 
-ORDER BY MONTH(fecha), DAY(fecha);
-

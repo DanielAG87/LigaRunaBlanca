@@ -20,12 +20,13 @@ $fechaModificada = date_format($objetoFecha, 'm/d/Y');
 
 
 $totalEventos = mysqli_query(
-    $con,'SELECT DATE_FORMAT(fecha, "%d, %M %Y") AS fecha
-FROM fechasPartidas 
-ORDER BY MONTH(fecha), DAY(fecha);');
+    $con,'SELECT DATE_FORMAT(fecha, "%d-%m-%Y") AS fecha
+            FROM fechasPartidas
+            ORDER BY MONTH(fecha), DAY(fecha);');
 
 
 mysqli_close($con); ?>
+
 <h3 class="text-center h3 text-primary vikingo">Próxima Partida</h3>
 
 
@@ -58,19 +59,15 @@ mysqli_close($con); ?>
 <div>
     <h3 class="text-center h3 text-primary vikingo">Fechas programadas</h3>
 </div>
-
-
-
-<div class="container-fluid" id="tablaTorneo">
-
-    <div class="row">
-        <?php
-        $fechaActual = date('d-m-Y');
-        ?>
-    </div>
+<br>
+<div>
+    <h5 class="text-center  vikingo">Todas las partidas se jugarán a las 17:30 en el centro juvenil de Marchamalo</h5>
 </div>
+<br>
 
 
+
+<?php $fechaActual = new DateTime(); ?>
 
 
 <div class="container-fluid" id="tablaFull">
@@ -80,11 +77,20 @@ mysqli_close($con); ?>
             
             <?php
             foreach ($totalEventos as $j) {
+                $fechaEvento = DateTime::createFromFormat('d-m-Y', $j['fecha']);
             ?>
             <div class="col-12 col-sm-12 col-md-6 col-lg-4 text-center mb-3"> 
             <tr>
-                <td>Partida</td>
-                <td><?= $j['fecha'] ?></td>
+                
+                <?php 
+                if ($fechaActual > $fechaEvento){ ?>
+                    <td style="color: red;">Jugada</td>
+                    <td style="color: red;"><?= $j['fecha'] ?></td>
+                <?php }
+                else{ ?>
+                    <td>Pendiente de Jugar</td>
+                    <td><?= $j['fecha'] ?></td>
+                <?php }?>
             </tr>
             </div>
             
