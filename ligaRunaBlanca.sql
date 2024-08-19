@@ -87,40 +87,107 @@ ORDER BY MONTH(fecha), DAY(fecha);
 
 
 
--- pendiente de revisar TO DO
-
-create table partida(
-    idpartida INT AUTO_INCREMENT PRIMARY KEY,
-    juego INT NOT NULL,
-    jugador1 INT NOT NULL,
-    jugador2 INT NOT NULL,
-    jugador3 INT NOT NULL,
-    jugador4 INT,
-    fecha DATE NOT NULL,
-    Foreign Key (juego) REFERENCES juegos (idJuego),
-    Foreign Key (jugador1) REFERENCES jugadores (idJugador),
-    Foreign Key (jugador2) REFERENCES jugadores (idJugador),
-    Foreign Key (jugador3) REFERENCES jugadores (idJugador),
-    Foreign Key (jugador4) REFERENCES jugadores (idJugador)
-) engine=innodb;
-
-
-
-create table puntuaciones (
-    idpuntuacion INT AUTO_INCREMENT PRIMARY KEY,
-    idpartida INT NOT NULL,
-    idJugador int NOT NULL,
+CREATE TABLE resultados (
+    idResultado INT AUTO_INCREMENT PRIMARY KEY,
+    idJugador INT NOT NULL,
     idJuego INT NOT NULL,
-    puntuacionJuego INT NOT NULL,
-    puntosLiga INT NOT NULL,
-    Foreign Key (idpartida) REFERENCES partida (idpartida),
+    idFecha INT NOT NULL,
+    puntosLiga  INT NOT NULL,
+    puntosJuego INT NOT NULL,
+    mesa INT NOT NULL,
     Foreign Key (idJugador) REFERENCES jugadores (idJugador),
-    Foreign Key (idJuego) REFERENCES juegos (idJuego)
+    Foreign Key (idJuego) REFERENCES juegos (idJuego),
+    Foreign Key (idFecha) REFERENCES fechasPartidas (idfechaPartida)
 ) engine=innodb;
 
 
-create Table fechas(
-    idfecha INT AUTO_INCREMENT PRIMARY key,
-    fecha DATE NOT NULL,
-    participantes INT
-) engine=innodb;
+INSERT INTO resultados (idJugador, idJuego, idFecha, puntosLiga, puntosJuego, mesa) 
+VALUES 
+(4,1,1,5,240,1),
+(5,1,1,3,240,1),
+(6,1,1,1,240,1),
+(4,2,2,3,240,2),
+(5,2,2,1,240,2),
+(6,2,2,5,240,2);
+
+
+
+-- calsificacion
+SELECT 
+        juga.nombre AS nombre_jugador, 
+        juego.nombre AS nombre_juego, 
+        fecha.fecha AS fecha_partida, 
+        sum(r.puntosLiga) AS puntosLiga,
+        sum(r.puntosJuego) AS puntosJuego,
+        r.mesa 
+    FROM resultados r
+    JOIN jugadores juga ON r.idJugador = juga.idJugador
+    JOIN juegos juego ON r.idJuego = juego.idJuego
+    JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
+    GROUP BY nombre_jugador
+    ORDER BY puntosLiga DESC;
+
+
+
+-- historico de partidas
+SELECT 
+        juga.nombre AS  Jugador, 
+        juego.nombre AS Juego, 
+        DATE_FORMAT(fecha.fecha, '%d-%m-%Y') AS Fecha, 
+        r.puntosLiga AS puntosLiga,
+        r.puntosJuego AS puntosJuego,
+        r.mesa 
+    FROM resultados r
+    JOIN jugadores juga ON r.idJugador = juga.idJugador
+    JOIN juegos juego ON r.idJuego = juego.idJuego
+    JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
+    ORDER BY mesa;
+    
+
+-- asitencia
+SELECT juga.nombre AS Jugador, count(r.idJugador) 
+    FROM resultados r
+    JOIN jugadores juga ON r.idJugador = juga.idJugador
+    GROUP BY r.idJugador;
+
+
+
+
+
+
+
+-- create table partida(
+--     idpartida INT AUTO_INCREMENT PRIMARY KEY,
+--     juego INT NOT NULL,
+--     jugador1 INT NOT NULL,
+--     jugador2 INT NOT NULL,
+--     jugador3 INT NOT NULL,
+--     jugador4 INT,
+--     fecha DATE NOT NULL,
+--     Foreign Key (juego) REFERENCES juegos (idJuego),
+--     Foreign Key (jugador1) REFERENCES jugadores (idJugador),
+--     Foreign Key (jugador2) REFERENCES jugadores (idJugador),
+--     Foreign Key (jugador3) REFERENCES jugadores (idJugador),
+--     Foreign Key (jugador4) REFERENCES jugadores (idJugador)
+-- ) engine=innodb;
+
+
+
+-- create table puntuaciones (
+--     idpuntuacion INT AUTO_INCREMENT PRIMARY KEY,
+--     idpartida INT NOT NULL,
+--     idJugador int NOT NULL,
+--     idJuego INT NOT NULL,
+--     puntuacionJuego INT NOT NULL,
+--     puntosLiga INT NOT NULL,
+--     Foreign Key (idpartida) REFERENCES partida (idpartida),
+--     Foreign Key (idJugador) REFERENCES jugadores (idJugador),
+--     Foreign Key (idJuego) REFERENCES juegos (idJuego)
+-- ) engine=innodb;
+
+
+-- create Table fechas(
+--     idfecha INT AUTO_INCREMENT PRIMARY key,
+--     fecha DATE NOT NULL,
+--     participantes INT
+-- ) engine=innodb;
