@@ -1,11 +1,20 @@
 <?php include "headerV2.php";
 include_once "conectarBBDD.php"; 
 
-$con = conectarBD();
-$juegos = mysqli_query($con, 'SELECT * FROM  juegos;');
+try {
+    $con = conectarBD();
 
-$devolverJuegos = mysqli_fetch_all($juegos);
+    $filtrar = $con->prepare('SELECT * FROM  juegos;');
+    $filtrar->execute();
+    $juegos = $filtrar->get_result();
+    $devolverJuegos = mysqli_fetch_all($juegos);
+} 
+catch (Exception $e) {
+    echo "Error : " . $e->getMessage();
+}
+
 mysqli_close($con);
+
 ?>
 
 <!-- printamos la informacion de cada juego con el boton de descargas -->

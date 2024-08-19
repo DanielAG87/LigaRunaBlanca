@@ -1,22 +1,47 @@
 <?php include "headerV2.php";
 include_once "conectarBBDD.php"; 
 
-$con = conectarBD();
+try {
+    $con = conectarBD();
 
-$clasificacion = mysqli_query($con, 
-    'SELECT 
-        juga.nombre AS nombre_jugador, 
-        sum(r.puntosLiga) AS puntosLiga,
-        sum(r.puntosJuego) AS puntosJuego
-    FROM resultados r
-    JOIN jugadores juga ON r.idJugador = juga.idJugador
-    JOIN juegos juego ON r.idJuego = juego.idJuego
-    JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
-    GROUP BY nombre_jugador
-    ORDER BY puntosLiga DESC;');
+    // $clasificacion = mysqli_query($con, 
+    //     'SELECT 
+    //         juga.nombre AS nombre_jugador, 
+    //         sum(r.puntosLiga) AS puntosLiga,
+    //         sum(r.puntosJuego) AS puntosJuego
+    //     FROM resultados r
+    //     JOIN jugadores juga ON r.idJugador = juga.idJugador
+    //     JOIN juegos juego ON r.idJuego = juego.idJuego
+    //     JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
+    //     GROUP BY nombre_jugador
+    //     ORDER BY puntosLiga DESC;');
 
-$devolverJuegos = mysqli_fetch_all($clasificacion);
+
+    $filtrar = $con->prepare('SELECT 
+                juga.nombre AS nombre_jugador, 
+                sum(r.puntosLiga) AS puntosLiga,
+                sum(r.puntosJuego) AS puntosJuego
+            FROM resultados r
+            JOIN jugadores juga ON r.idJugador = juga.idJugador
+            JOIN juegos juego ON r.idJuego = juego.idJuego
+            JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
+            GROUP BY nombre_jugador
+            ORDER BY puntosLiga DESC;');
+    $filtrar->execute();
+    $clasificacion = $filtrar->get_result();
+    $devolverClasificacion = mysqli_fetch_all($clasificacion);
+    
+
+} 
+catch (Exception $e) {
+    echo "Error : " . $e->getMessage();
+}
+
 mysqli_close($con);
+
+
+
+
 ?>
 <br>
 <br>
@@ -35,7 +60,7 @@ mysqli_close($con);
                     <th>Total Puntos Juegos</td>
                 </tr>
                 <?php
-                foreach ($devolverJuegos as $j) {?>
+                foreach ($devolverClasificacion as $j) {?>
                     <tr>
                         <td><?= $j[0] ?></td>
                         <td><?= $j[1] ?></td>
