@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php session_start(); 
+if(empty($_SESSION['nombre'])){
+    header("Location: index.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 
 <html lang="es">
@@ -17,8 +22,8 @@
     <link rel="stylesheet" href="TFGcolor.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script> <!-- uldimo -->
-    <link rel="icon" href="./img/RunaLogo.svg" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script> <!-- ultimo -->
+    <link rel="icon" href="./img/iconoRuna4.png" type="image/x-icon">
 </head>
 
 <div id="azul" class="mb-3">
@@ -50,14 +55,14 @@
                                     <a class="nav-link" id="blanco" href="juegos.php">Juegos</a>
                                 </li>
                                 <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="contabilidad.php">Clasificación</a>
+                                        <a class="nav-link" id="blanco" href="clasificacion.php">Clasificación</a>
                                 </li>
 
                                 <?php
-                                if ("Si" == "Si") { ?>
+                                if (strtoupper($_SESSION['permiso']) == "SI") { ?>
                                     
                                     <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="socios.php">Gestion Liga</a>
+                                        <a class="nav-link" id="blanco" href="gestion.php">Gestion Liga</a>
                                     </li> <?php
                                         } else { ?>
                                     <li class="nav-item">
@@ -73,7 +78,7 @@
             </div>
             <div class="col-md-2 d-flex align-items-center justify-content-center">
                 <div class="d-flex flex-column align-items-center">
-                    <span class="pr-3 mr-2 mb-2" id="spanNombre">¡Bienvenido Daniel!</span>
+                    <span class="pr-3 mr-2 mb-2" id="spanNombre">Bienvenido <?=$_SESSION['nombre']?></span>
                     <form method="post" action="index.php">
                         <button type="submit" id="descon" name="descon" value="descon" class="btn btn-outline-warning ml-4">Desconectar</button>
                     </form>

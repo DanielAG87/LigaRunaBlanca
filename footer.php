@@ -5,12 +5,12 @@
                         <li class="nav-item"><a href="inicio.php" class="nav-link px-2  text-white">Inicio</a></li>
                         <li class="nav-item"><a href="ProximasPartidas.php" class="nav-link px-2 text-white">Próximas Partidas</a></li>
                         <li class="nav-item"><a href="juegos.php" class="nav-link px-2 text-white">Juegos</a></li>
-                        <li class="nav-item"><a href="contabilidad.php" class="nav-link px-2 text-white">Clasificación</a></li>
+                        <li class="nav-item"><a href="clasificacion.php" class="nav-link px-2 text-white">Clasificación</a></li>
                         <?php
-                                if ("Si" == "Si") { ?>
+                                if (strtoupper($_SESSION['permiso']) == "SI") { ?>
                                  
                                     <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="socios.php">Gestion Liga</a>
+                                        <a class="nav-link" id="blanco" href="gestion.php">Gestion Liga</a>
                                     </li> <?php
                                         } else { ?>
                                     <li class="nav-item">
@@ -26,6 +26,5 @@
                 </footer>
             </div>
         </div>
-       
     </body>
 </html>

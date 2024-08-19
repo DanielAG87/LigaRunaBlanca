@@ -15,6 +15,8 @@
 }
 
 
+
+
 /* region index */
 #loginIMG {
     width: 200px;
@@ -34,22 +36,20 @@
 
 
 
+
+
 .navbar {
     margin: 0 auto;
     display: table !important;
     text-align: center;
 
 }
-/* #dex{
-  width: 230px;
-  justify-content: end !important;
-} */
+
 #spanNombre{
   /* color: #ffc107; */
   color: #a6a2a4;
- 
   margin-right: 20px;
-  /* font-size: 10px; */
+
 }
 #blanco{
     color: white;
@@ -93,39 +93,6 @@
 
 
 
-/* Region footer */
-footer{
-    /* position: absolute; */
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    color: white;
-    /* margin-bottom: 0rem !important; */
-}
-#spanFooter{
-  padding-right: 20px;
-}
-.iconoBlanco{
-  color: white;
-  padding-right: 4px;
-}
-/* fin region footer */
-
-
-
-
-
-/* region contabilidad */
-#btnContabilidad{
-  height: 40px;
-  width: 155px;
-}
-.spacer {
-  width: 40px; /* Ajusta el ancho del espacio según tus necesidades */
-}
-/* fin region contabilidad */
-
-
 
 /* region Carousel */
 .carousel-inner img {
@@ -151,7 +118,7 @@ footer{
 
 
 
-/* Mapa y datos aso */
+/*Region datos aso */
 #datoAso{
   /* height: 350px; */
   max-height: max-content;
@@ -163,15 +130,7 @@ footer{
   height: 365px;
 }
 
-#mapaDatos{
-  background-image: url("./img/joven50.png");
-  background-repeat: no-repeat; 
-  background-size: cover;
-  /* color: #074e9e; */
-  /* color: #e029e6; */
-
-}
-/* fin Mapa y datos aso */
+/*Fin region datos aso */
 
 
 
@@ -240,12 +199,25 @@ footer{
 /* Fin region cronometro */
 
 
-/* region gráfica */
-#grafica{
-  width: auto;
-  max-height: 464px;
+
+
+
+
+
+/* Region footer */
+footer{
+  /* position: absolute; */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: white;
+  /* margin-bottom: 0rem !important; */
 }
-
-/* fin region gráfica */
-
-
+#spanFooter{
+padding-right: 20px;
+}
+.iconoBlanco{
+color: white;
+padding-right: 4px;
+}
+/* fin region footer */

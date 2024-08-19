@@ -62,18 +62,18 @@ include "headerV2.php";
       <div class="row "> <!-- align-items-center -->
         <div class="col-md-6 pb-5" id="datoAso">
           <h3 class=""><u>Junta Directiva</u></h3><br />
-          <p><strong>Líder Supremo: <em>Julio Cesar de Roma</em></strong></p>
-          <p><strong>Vicepresidente: <em>Rubén Gómez Martínez</em></strong></p>
-          <p><strong>Secretario: <em>Sofía López González</em></strong></p>
-          <p><strong>Organizador Liga: <em>Daniel Agustín Arroyo</em></strong></p>
+          <p><strong>Líder Supremo:</strong> <em>Julio Cesar de Roma</em></p>
+          <p><strong>Vicepresidente: </strong><em>Rubén Gómez Martínez</em></p>
+          <p><strong>Secretario: </strong><em>Sofía López González</em></p>
+          <p><strong>Organizador: </strong><em>Daniel Agustín Arroyo</em></p>
 
         </div>
         <div class="col-md-6 datoAso2" id="datoAso">
           <h3 class=""><u>Datos Asociación</u></h3><br />
-          <p><strong>Domicilio: <em>Calle de los músicos, 2 19180 Marchamalo, Guadalajara </em></strong></p>
-          <p><strong>Correo: <em>runablanca@gmail.com</em></strong></p>
-          <p><strong>CIF: <em>82080366J </em></strong></p>
-          <p><strong>Número de cuenta: <em>ES22 3333 4444 5555 6666 9999</em></strong></p>
+          <p><strong>Domicilio: </strong><em>Calle de los músicos, 2 19180 Marchamalo, Guadalajara </em></p>
+          <p><strong>Correo: </strong><em>runablanca@gmail.com</em></p>
+          <p><strong>CIF: </strong><em>82080366J </em></p>
+          <!-- <p><strong>Número de cuenta: </strong><em>ES22 3333 4444 5555 6666 9999</em></p> -->
         </div>
       </div>
     </div>

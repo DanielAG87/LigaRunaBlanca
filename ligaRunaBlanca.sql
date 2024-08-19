@@ -1,5 +1,6 @@
 -- Active: 1718017247649@@127.0.0.1@3307
 
+USE ligarunablanca;
 
 
 -- para configurar la base de datos en español
@@ -31,6 +32,16 @@ INSERT INTO jugadores(nombre, apellido1, apellido2, correoElectronico, MiembroAs
 DELETE from jugadores WHERE nombre in("Daniel", "Oriol", "Carol");
 
 select * FROM jugadores;
+
+ALTER TABLE jugadores
+ADD permiso VARCHAR(5);
+
+
+UPDATE jugadores
+SET permiso = 'si'
+WHERE nombre = "Daniel";
+
+
 
 create table juegos (
     idJuego INT AUTO_INCREMENT PRIMARY KEY,
