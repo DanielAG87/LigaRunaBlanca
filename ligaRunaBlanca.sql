@@ -56,8 +56,10 @@ create table juegos (
     rutaManual VARCHAR(100)
 ) engine=innodb;
 
+ALTER TABLE juegos
+ADD COLUMN youtube VARCHAR(255);
 -- como meter la fecha "2010-11-05"
-
+SELECT * from juegos where nombre ="Las ruinas perdidas de arnak" or nombre = "Fresco"; 
 INSERT INTO juegos (nombre, editorial, minJugadores, maxJugadores,  mecanica, edadMinima, pertenece, rutaFoto, rutaManual) VALUES
     ("Agrícola", "Devir", 1, 5, "Colocación de trabajadores", 12, "Asociacion", "./img/juegos/agricola.jpg", "./reglamentos_Liga/Agricola-reglas.pdf"),
     ("Bunny Kingdom", "IELLO", 2, 4, "Mayorias", 12, "Asociacion", "./img/juegos/bunnyKingdom.jpg", "./reglamentos_Liga/BunnyKingdom_Reglamento.pdf"),
@@ -68,7 +70,7 @@ INSERT INTO juegos (nombre, editorial, minJugadores, maxJugadores,  mecanica, ed
     ("Fresco", "Queen Games", 2, 4, "Gestión de recursos", 10, "Asociacion", "./img/juegos/fresco.jpg", "./reglamentos_Liga/fresco-es.pdf"),
     ("Gaia Proyect", "Maldito Games", 1, 5, "Gestión de recursos", 12, "Asociacion","./img/juegos/gaiaPorject.jpg", "./reglamentos_Liga/gaia.pdf"),
     ("Great Western Trail", "Maldito Games", 2, 4, "Construcción de mazo", 14, "Asociacion", "./img/juegos/greatWesternTrail.jpg", "./reglamentos_Liga/GWT.pdf"),
-    ("Lacrimosa", "Abba", 3, 5, "Tablero y cartas", 16, "Asociacion", "./img/juegos/lacrimosa.jpg", "./reglamentos_Liga/ES-Lacrimosa.pdf"),
+    ("Lacrimosa", "Devir", 3, 5, "Tablero y cartas", 16, "Asociacion", "./img/juegos/lacrimosa.jpg", "./reglamentos_Liga/ES-Lacrimosa.pdf"),
     ("Las ruinas perdidas de arnak", "Devir", 1, 4, "Colocación de trabajadores, Creación de mazo, Gestión de recursos", 14, "Asociacion", "sin asignar", "./reglamentos_Liga/nada.txt"),
     ("Marco Polo", "Devir", 2, 4, "Colocación de dados", 14,"Asociacion", "./img/juegos/marcoPolo.jpg", "./reglamentos_Liga/los-viajes-de-marco-polo.pdf" ),
     ("Photosynthesis", "GDM Games", 2, 4, "Colocación de trabajadores, Gestión de recursos", 10, "Asociacion", "./img/juegos/photosynthesis.jpg", "./reglamentos_Liga/photosynthesis(pagina 13).pdf"),
@@ -78,7 +80,9 @@ INSERT INTO juegos (nombre, editorial, minJugadores, maxJugadores,  mecanica, ed
     ("Wingspan", "Stonemaier Games", 1, 5, "Gestion de mano, Drafting", 10, "Asociacion", "./img/juegos/wingspan.jpg", "./reglamentos_Liga/wingspan-instrucciones_.pdf"),
     ("Noria", "Devir", 2, 4, "Colocación de trabajadores", 12, "Asociacion", "./img/juegos/noria.jpg", "./reglamentos_Liga/nada.txt");
 
-
+UPDATE juegos
+SET rutaManual = './reglamentos_Liga/arnak.pdf'
+WHERE nombre = "Las ruinas perdidas de arnak";
     
 
 create Table fechasPartidas(
@@ -126,11 +130,11 @@ VALUES
 -- calsificacion
 SELECT 
         juga.nombre AS nombre_jugador, 
-        juego.nombre AS nombre_juego, 
-        fecha.fecha AS fecha_partida, 
+        -- juego.nombre AS nombre_juego, 
+        -- fecha.fecha AS fecha_partida, 
         sum(r.puntosLiga) AS puntosLiga,
-        sum(r.puntosJuego) AS puntosJuego,
-        r.mesa 
+        sum(r.puntosJuego) AS puntosJuego
+        -- r.mesa 
     FROM resultados r
     JOIN jugadores juga ON r.idJugador = juga.idJugador
     JOIN juegos juego ON r.idJuego = juego.idJuego
