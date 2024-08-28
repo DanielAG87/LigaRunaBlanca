@@ -46,7 +46,7 @@ mysqli_close($con);
 <br>
 <br>
 <div>
-    <h3 class="text-center h3 text-primary vikingo">Clasificación</h3>
+   <h3 class="text-center h3 text-primary vikingo"><u>CLASIFICACIÓN</u></h3>
 </div>
 <br>
 

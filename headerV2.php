@@ -3,6 +3,29 @@ if(empty($_SESSION['nombre'])){
     header("Location: index.php");
     exit;
 }
+
+
+// Establecer el límite de inactividad en segundos (2 horas = 7200 segundos)
+// $limite_inactividad = 7200;
+$limite_inactividad = 60;
+
+// Verificar si hay actividad previa
+if (isset($_SESSION['ultima_actividad'])) {
+    // Calcular el tiempo de inactividad
+    $tiempo_inactivo = time() - $_SESSION['ultima_actividad'];
+
+    // Si ha pasado más de $limite_inactividad segundos, desloguear
+    if ($tiempo_inactivo > $limite_inactividad) {
+        // Destruir la sesión y redirigir al usuario a la página de login
+        session_unset(); // Limpiar las variables de sesión
+        session_destroy(); // Destruir la sesión
+        header("Location: index.php"); // Redirigir al login
+        exit(); // Detener la ejecución del script
+    }
+}
+
+// Actualizar el tiempo de la última actividad
+$_SESSION['ultima_actividad'] = time();
 ?>
 <!DOCTYPE html>
 

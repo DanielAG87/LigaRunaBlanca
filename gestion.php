@@ -24,18 +24,11 @@ mysqli_close($con); ?>
         <input type="date" id="fecha" class="form-control" placeholder="Fecha" />
         <br />
         <div class="d-flex justify-content-center">
-            <button type="button" id="" class="btn btn-outline-primary m-2 " onclick="movimiento()">Hacer movimiento</button>
-            <form method="post" action="contabilidad.php">
-                <button type="submit" id="vol" class="btn btn-outline-primary m-2">Volver</button>
-            </form>
             <button type="submit" id="limpiar" class="btn btn-outline-primary m-2">Limpiar campos</button>
+            <button type="button" id="" class="btn btn-outline-primary m-2 " onclick="movimiento()">Actualizar</button>
         </div>
     </fieldset>
 </div>
-
-
-
-
 
 
 

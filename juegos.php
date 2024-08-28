@@ -27,9 +27,18 @@ mysqli_close($con);
                 <img style="width: 200px; height: 200px;" src="<?= $j[8] ?>" /><br />
                 <span>Jugadores: <?= $j[3] ?>-<?= $j[4] ?></span><br />
                 <span>Edad mínima: <?= $j[6] ?></span><br />
+                
                 <button class="btn btn-outline-primary">
                     <a href="<?php echo $j[9] ?>" download="Reglas <?= $j[1] ?>" style="text-decoration: none;"> Descargar Manual </a>
                 </button>
+
+                <a href="<?= $j[10] ?>" target="_blank" style="text-decoration: none;">
+                    <button class="btn btn-outline-primary">
+                        Aprende a jugar
+                    </button>
+                </a>
+                
+                
             </div>
         <?php } ?>
     </div>
