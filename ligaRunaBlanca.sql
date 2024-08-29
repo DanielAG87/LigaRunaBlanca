@@ -169,7 +169,7 @@ SELECT juga.nombre AS Jugador, count(r.idJugador)
 
 
 
-
+SELECT idfechaPartida, DATE_FORMAT(fecha, "%d-%m-%Y") AS fecha FROM  fechaspartidas ORDER BY MONTH(fecha), DAY(fecha) ;
 
 -- create table partida(
 --     idpartida INT AUTO_INCREMENT PRIMARY KEY,

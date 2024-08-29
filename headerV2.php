@@ -7,7 +7,7 @@ if(empty($_SESSION['nombre'])){
 
 // Establecer el límite de inactividad en segundos (2 horas = 7200 segundos)
 // $limite_inactividad = 7200;
-$limite_inactividad = 60;
+$limite_inactividad = 7200;
 
 // Verificar si hay actividad previa
 if (isset($_SESSION['ultima_actividad'])) {
