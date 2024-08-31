@@ -72,7 +72,7 @@ $_SESSION['ultima_actividad'] = time();
                                     <a class="nav-link" id="blanco" aria-current="page" href="inicio.php">Inicio</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="blanco" href="ProximasPartidas.php">Próximas Partidas</a>
+                                    <a class="nav-link" id="blanco" href="ProximasPartidas.php">Partidas</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="blanco" href="juegos.php">Juegos</a>

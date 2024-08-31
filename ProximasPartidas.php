@@ -25,6 +25,25 @@ $totalEventos = mysqli_query(
             ORDER BY MONTH(fecha), DAY(fecha);');
 
 
+
+// partidas ya jugadas
+$historico = mysqli_query(
+    $con,'SELECT 
+            CONCAT(juga.nombre, " ", juga.apellido1) AS  Jugador, 
+            juego.nombre AS Juego, 
+            DATE_FORMAT(fecha.fecha, "%d-%m-%Y") AS Fecha, 
+            r.puntosLiga AS "Puntos Liga",
+            r.puntosJuego AS "Puntos Juego",
+            r.mesa AS Mesa
+        FROM resultados r
+        JOIN jugadores juga ON r.idJugador = juga.idJugador
+        JOIN juegos juego ON r.idJuego = juego.idJuego
+        JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
+        ORDER BY  Fecha, Mesa, r.puntosLiga DESC;');
+
+
+
+
 mysqli_close($con); ?>
 
 <h3 class="text-center h3 text-primary vikingo">Próxima Partida</h3>
@@ -71,7 +90,12 @@ mysqli_close($con); ?>
 
 
 <div class="container-fluid" id="tablaFull">
-    <div class="table-responsive">
+    <div class="table-responsive" style="width: 90%;
+            margin: 0 auto; 
+            padding: 20px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            background-color: #f9f9f9; 
+            border-radius: 10px;">
         <table class="table table-striped table-hover table-bordered text-center" id="tablaPrincipal">
         
             
@@ -97,12 +121,50 @@ mysqli_close($con); ?>
         <?php } ?>
             
         </table>
-    </div>
+    </div> </br></br>
 
+
+
+    <div>
+        <h3 class="text-center h3 text-primary vikingo">Historico de partidas</h3>
+    </div>
+    </br>
+
+    <div class="container-fluid" id="tablaFull">
+        <div class="table-responsive" style="width: 90%;
+            margin: 0 auto; 
+            padding: 20px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            background-color: #f9f9f9; 
+            border-radius: 10px;">
+            <table class="table table-striped table-hover table-bordered text-center" id="tablaPrincipal">
+                <tr>
+                    <th>Jugador</th>
+                    <th>Juego</th> 
+                    <th>Fecha</th> 
+                    <th>Puntos Liga</th> 
+                    <th>Puntos Juego</th> 
+                    <th>Mesa</th> 
+                </tr>
+            <?php
+            foreach ($historico as $d) { ?>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 text-center mb-3"> 
+                <tr>
+                    <td ><?= $d['Jugador'] ?></td>
+                    <td><?= $d['Juego'] ?></td>
+                    <td ><?= $d['Fecha'] ?></td>
+                    <td><?= $d['Puntos Liga'] ?></td>
+                    <td ><?= $d['Puntos Juego'] ?></td>
+                    <td><?= $d['Mesa'] ?></td>
+                    <?php }?>
+                </tr>
+            </div>
+    
+        </table>
+    </div>
+</div>
 
 <?php include("footer.php"); ?>
-
-
 
 
 

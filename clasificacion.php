@@ -17,16 +17,18 @@ try {
     //     ORDER BY puntosLiga DESC;');
 
 
-    $filtrar = $con->prepare('SELECT 
-                juga.nombre AS nombre_jugador, 
+
+    $filtrar = $con->prepare('SELECT
+                CONCAT(juga.nombre, " ", juga.apellido1) AS  nombre_jugador, 
                 sum(r.puntosLiga) AS puntosLiga,
-                sum(r.puntosJuego) AS puntosJuego
+                sum(r.puntosJuego) AS puntosJuego,
+                count(r.idJugador)
             FROM resultados r
             JOIN jugadores juga ON r.idJugador = juga.idJugador
             JOIN juegos juego ON r.idJuego = juego.idJuego
             JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
             GROUP BY nombre_jugador
-            ORDER BY puntosLiga DESC;');
+            ORDER BY puntosLiga DESC, puntosJuego DESC;');
     $filtrar->execute();
     $clasificacion = $filtrar->get_result();
     $devolverClasificacion = mysqli_fetch_all($clasificacion);
@@ -58,6 +60,7 @@ mysqli_close($con);
                     <th>Jugador</td>
                     <th>Puntos Liga</td>
                     <th>Total Puntos Juegos</td>
+                    <th>Días Asistencia</td>
                 </tr>
                 <?php
                 foreach ($devolverClasificacion as $j) {?>
@@ -65,6 +68,7 @@ mysqli_close($con);
                         <td><?= $j[0] ?></td>
                         <td><?= $j[1] ?></td>
                         <td><?= $j[2] ?></td>
+                        <td><?= $j[3] ?></td>
                     </tr>
     
                 <?php 

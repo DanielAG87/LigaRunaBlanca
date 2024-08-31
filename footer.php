@@ -3,7 +3,7 @@
                 <footer class="py-3 my-4">
                     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
                         <li class="nav-item"><a href="inicio.php" class="nav-link px-2  text-white">Inicio</a></li>
-                        <li class="nav-item"><a href="ProximasPartidas.php" class="nav-link px-2 text-white">Próximas Partidas</a></li>
+                        <li class="nav-item"><a href="ProximasPartidas.php" class="nav-link px-2 text-white">Partidas</a></li>
                         <li class="nav-item"><a href="juegos.php" class="nav-link px-2 text-white">Juegos</a></li>
                         <li class="nav-item"><a href="clasificacion.php" class="nav-link px-2 text-white">Clasificación</a></li>
                         <?php

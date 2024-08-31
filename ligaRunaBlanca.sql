@@ -29,6 +29,18 @@ INSERT INTO jugadores(nombre, apellido1, apellido2, correoElectronico, MiembroAs
     ("Oriol", "Torija", "Marrodan", "bury@gmail.com", "si", "Guadalajara", sha1(123)),
     ("Carol", "Yedra", "", "laCarol@gmail.com", "no", "Guadalajara", sha1(123));
 
+
+INSERT INTO jugadores(nombre, apellido1, correoElectronico, contraseña) VALUES
+    ("Pilar", "Guapa", "laCarol@gmail.com", sha1(123)),
+    ("Paula", "Arnaiz", "laCarol@gmail.com", sha1(123)),
+    ("Pedro", "Feo", "laCarol@gmail.com", sha1(123)),
+    ("Raquel", "Enana", "laCarol@gmail.com", sha1(123)),
+    ("Adrian", "Harry", "laCarol@gmail.com", sha1(123)),
+    ("Daniel", "Segundo", "laCarol@gmail.com", sha1(123));
+
+
+
+
 DELETE from jugadores WHERE nombre in("Daniel", "Oriol", "Carol");
 
 select * FROM jugadores;
@@ -126,6 +138,8 @@ VALUES
 (6,2,2,5,240,2);
 
 
+TRUNCATE TABLE resultados; -- borramos los resultados y reiniciamos contadores automaticos 
+
 
 -- calsificacion
 SELECT 
@@ -146,17 +160,17 @@ SELECT
 
 -- historico de partidas
 SELECT 
-        juga.nombre AS  Jugador, 
+        CONCAT(juga.nombre, ' ', juga.apellido1) AS  Jugador, 
         juego.nombre AS Juego, 
         DATE_FORMAT(fecha.fecha, '%d-%m-%Y') AS Fecha, 
-        r.puntosLiga AS puntosLiga,
-        r.puntosJuego AS puntosJuego,
-        r.mesa 
+        r.puntosLiga AS "Puntos Liga",
+        r.puntosJuego AS "Puntos Juego",
+        r.mesa AS Mesa
     FROM resultados r
     JOIN jugadores juga ON r.idJugador = juga.idJugador
     JOIN juegos juego ON r.idJuego = juego.idJuego
     JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
-    ORDER BY mesa;
+    ORDER BY  Fecha, Mesa, r.puntosLiga DESC;
     
 
 -- asitencia
@@ -171,38 +185,4 @@ SELECT juga.nombre AS Jugador, count(r.idJugador)
 
 SELECT idfechaPartida, DATE_FORMAT(fecha, "%d-%m-%Y") AS fecha FROM  fechaspartidas ORDER BY MONTH(fecha), DAY(fecha) ;
 
--- create table partida(
---     idpartida INT AUTO_INCREMENT PRIMARY KEY,
---     juego INT NOT NULL,
---     jugador1 INT NOT NULL,
---     jugador2 INT NOT NULL,
---     jugador3 INT NOT NULL,
---     jugador4 INT,
---     fecha DATE NOT NULL,
---     Foreign Key (juego) REFERENCES juegos (idJuego),
---     Foreign Key (jugador1) REFERENCES jugadores (idJugador),
---     Foreign Key (jugador2) REFERENCES jugadores (idJugador),
---     Foreign Key (jugador3) REFERENCES jugadores (idJugador),
---     Foreign Key (jugador4) REFERENCES jugadores (idJugador)
--- ) engine=innodb;
 
-
-
--- create table puntuaciones (
---     idpuntuacion INT AUTO_INCREMENT PRIMARY KEY,
---     idpartida INT NOT NULL,
---     idJugador int NOT NULL,
---     idJuego INT NOT NULL,
---     puntuacionJuego INT NOT NULL,
---     puntosLiga INT NOT NULL,
---     Foreign Key (idpartida) REFERENCES partida (idpartida),
---     Foreign Key (idJugador) REFERENCES jugadores (idJugador),
---     Foreign Key (idJuego) REFERENCES juegos (idJuego)
--- ) engine=innodb;
-
-
--- create Table fechas(
---     idfecha INT AUTO_INCREMENT PRIMARY key,
---     fecha DATE NOT NULL,
---     participantes INT
--- ) engine=innodb;

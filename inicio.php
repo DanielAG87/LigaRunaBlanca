@@ -2,7 +2,7 @@
 include "headerV2.php";
 
 ?>
-<!-- Carousel -->
+<!-- Carrusel -->
 <div class="container-fluid">
   <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
@@ -45,7 +45,7 @@ include "headerV2.php";
     </button>
   </div>
 </div>
-<!-- Fin Carousel -->
+<!-- Fin Carusel -->
 
 
 <div class="container-fluid pt-6" id="mapaDatos">
@@ -73,7 +73,6 @@ include "headerV2.php";
           <p><strong>Domicilio: </strong><em>Calle de los músicos, 2 19180 Marchamalo, Guadalajara </em></p>
           <p><strong>Correo: </strong><em>runablanca@gmail.com</em></p>
           <p><strong>CIF: </strong><em>82080366J </em></p>
-          <!-- <p><strong>Número de cuenta: </strong><em>ES22 3333 4444 5555 6666 9999</em></p> -->
         </div>
       </div>
     </div>
