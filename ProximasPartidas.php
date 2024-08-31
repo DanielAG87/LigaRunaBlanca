@@ -90,12 +90,7 @@ mysqli_close($con); ?>
 
 
 <div class="container-fluid" id="tablaFull">
-    <div class="table-responsive" style="width: 90%;
-            margin: 0 auto; 
-            padding: 20px; 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-            background-color: #f9f9f9; 
-            border-radius: 10px;">
+    <div class="table-responsive" id="tablaGPT">
         <table class="table table-striped table-hover table-bordered text-center" id="tablaPrincipal">
         
             

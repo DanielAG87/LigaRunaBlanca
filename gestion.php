@@ -34,12 +34,7 @@ mysqli_close($con); ?>
 
 
 <div class="container">
-    <div style="width: 40%;
-            margin: 0 auto; 
-            padding: 20px; 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-            background-color: #f9f9f9; 
-            border-radius: 10px;">
+    <div id="tablaGPT">
         <fieldset>
             <legend style="text-align: center;">Registrar resultados</legend>
 

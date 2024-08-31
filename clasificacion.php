@@ -53,30 +53,31 @@ mysqli_close($con);
 <br>
 
 
-    <div class="container-fluid" id="tablaFull">
-        <div class="table-responsive">
-            <table class="table table-striped table-hover table-bordered text-center" style="width: 80%; margin:auto">
+<div class="container-fluid" id="tablaFull">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered text-center" id="tablaGPT">
+            <tr>
+                <th>Jugador</td>
+                <th>Puntos Liga</td>
+                <th>Total Puntos Juegos</td>
+                <th>Días Asistencia</td>
+            </tr>
+            <?php
+            foreach ($devolverClasificacion as $j) {?>
                 <tr>
-                    <th>Jugador</td>
-                    <th>Puntos Liga</td>
-                    <th>Total Puntos Juegos</td>
-                    <th>Días Asistencia</td>
+                    <td><?= $j[0] ?></td>
+                    <td><?= $j[1] ?></td>
+                    <td><?= $j[2] ?></td>
+                    <td><?= $j[3] ?></td>
                 </tr>
-                <?php
-                foreach ($devolverClasificacion as $j) {?>
-                    <tr>
-                        <td><?= $j[0] ?></td>
-                        <td><?= $j[1] ?></td>
-                        <td><?= $j[2] ?></td>
-                        <td><?= $j[3] ?></td>
-                    </tr>
-    
-                <?php 
-                } ?>
-    
-            </table>
-        </div>
+
+            <?php 
+            } ?>
+
+        </table>
     </div>
+</div>
+</br>
 
 
 
