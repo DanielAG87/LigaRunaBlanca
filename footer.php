@@ -6,6 +6,7 @@
                         <li class="nav-item"><a href="ProximasPartidas.php" class="nav-link px-2 text-white">Partidas</a></li>
                         <li class="nav-item"><a href="juegos.php" class="nav-link px-2 text-white">Juegos</a></li>
                         <li class="nav-item"><a href="clasificacion.php" class="nav-link px-2 text-white">Clasificación</a></li>
+                        <li class="nav-item"><a href="emparejamientos.php" class="nav-link px-2 text-white">Emparejamientos</a></li>
                         <?php
                                 if (strtoupper($_SESSION['permiso']) == "SI") { ?>
                                  

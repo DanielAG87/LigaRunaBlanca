@@ -156,7 +156,7 @@ mysqli_close($con); ?>
                 });  
             }
         };
-        xhttp.open("POST", "funciones/actualizarResultado.php?nomJugador=" + nomJugador + "&nomJuego=" + nomJuego + "&fecha=" + fecha + "&puntosLiga=" +
+        xhttp.open("POST", "funciones/actualizarResultado(gestion).php?nomJugador=" + nomJugador + "&nomJuego=" + nomJuego + "&fecha=" + fecha + "&puntosLiga=" +
             puntosLiga + "&puntosJuego=" + puntosJuego + "&mesa=" + mesa, true);
         xhttp.send();
     }

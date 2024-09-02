@@ -80,6 +80,9 @@ $_SESSION['ultima_actividad'] = time();
                                 <li class="nav-item">
                                         <a class="nav-link" id="blanco" href="clasificacion.php">Clasificación</a>
                                 </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" id="blanco" href="emparejamientos.php">Emparejamientos</a>
+                                </li>
 
                                 <?php
                                 if (strtoupper($_SESSION['permiso']) == "SI") { ?>
