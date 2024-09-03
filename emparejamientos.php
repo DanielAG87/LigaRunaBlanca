@@ -18,7 +18,7 @@ $contadorJugadores = 0;
         <?php 
         foreach ($resultadoNombreJugadores as $j) {?>
             <label for="checkbox<?=$contadorJugadores?>">
-                <input type="checkbox" id="checkbox<?=$contadorJugadores?>" name="option1" value="<?= $j[0] ?>"><?= $j[1] ?>
+                <input type="checkbox" id="checkbox<?=$contadorJugadores?>" name="option1" value="<?= $j[0] ?>">  <?= $j[1] ?>
             </label><br>
         <?php
             $contadorJugadores++;
@@ -28,7 +28,7 @@ $contadorJugadores = 0;
 </div>
 
 
-
+<div id="emparejamientos"></div>
 
 
 <script>
@@ -46,43 +46,28 @@ $contadorJugadores = 0;
                 // console.log("Checkbox " + (i + 1) + " está marcado.");
                 valoresMarcados.push(checkboxes[i].value);
             } 
-            // else {
-            //     console.log("Checkbox " + (i + 1) + " NO está marcado.");
-            // }
         }
         console.log("Valores marcados:", valoresMarcados);
 
 
-    //     var xhttp = new XMLHttpRequest();
-    //     xhttp.onreadystatechange = function() {
-    //         if (this.readyState == 4 && this.status == 200) {
-    //             // falta printarlo
-    //         }
-    //     };
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // falta printarlo
+                console.log('Respuesta del servidor:', this.responseText);
+                document.getElementById('emparejamientos').innerHTML = this.responseText;
+            }
+        };
 
-    //     xhttp.open("POST", "funciones/realizarEmparejamiento(emparejamientos).php?valoresMarcados=" + valoresMarcados, true);
+        // xhttp.open("POST", "funciones/realizarEmparejamiento(emparejamientos).php?valoresMarcados=" + valoresMarcados, true);
 
-    //     xhttp.send();
-    // }
+        // xhttp.send();
+        xhttp.open("POST", "funciones/realizarEmparejamiento(emparejamientos).php", true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
 
-    // Crear una instancia de XMLHttpRequest
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log('Respuesta del servidor:', this.responseText);
-            // Puedes manejar la respuesta aquí si es necesario
-        }
-    };
+        // Convertir el array a JSON y enviarlo en el cuerpo de la solicitud
+        xhttp.send(JSON.stringify({ valoresMarcados: valoresMarcados }));
+    }
 
-    // Configurar la solicitud POST
-    xhttp.open("POST", "funciones/realizarEmparejamiento(emparejamientos).php", true);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    // Convertir el array a una cadena de parámetros URL codificados
-    const parametros = new URLSearchParams();
-    parametros.append('valoresMarcados', JSON.stringify(valoresMarcados));
-
-    // Enviar la solicitud con los parámetros
-    xhttp.send(parametros.toString());
-}
+    
 </script>
