@@ -142,17 +142,46 @@ mysqli_close($con); ?>
                     <th>Mesa</th> 
                 </tr>
             <?php
+            $juegoComodin = "";
+            $mesaComodin = "";
+
+
             foreach ($historico as $d) { ?>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4 text-center mb-3"> 
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 text-center mb-3">  
+                <?php  // comprobamos si la mesa y el juego es el mismo, si no es así metemos una separación.
+                if(($juegoComodin == $d['Juego'] and $mesaComodin == $d['Mesa']) || ($juegoComodin == "" and  $mesaComodin == "")) { ?>
+
+                    <tr>
+                        <td ><?= $d['Jugador'] ?></td>
+                        <td><?= $d['Juego'] ?></td>
+                        <td ><?= $d['Fecha'] ?></td>
+                        <td><?= $d['Puntos Liga'] ?></td>
+                        <td ><?= $d['Puntos Juego'] ?></td>
+                        <td><?= $d['Mesa'] ?></td>
+                    </tr> <?php
+                    $juegoComodin = $d['Juego'];
+                    $mesaComodin = $d['Mesa']; ?>
+                <?php } 
+                else{?>
                 <tr>
-                    <td ><?= $d['Jugador'] ?></td>
-                    <td><?= $d['Juego'] ?></td>
-                    <td ><?= $d['Fecha'] ?></td>
-                    <td><?= $d['Puntos Liga'] ?></td>
-                    <td ><?= $d['Puntos Juego'] ?></td>
-                    <td><?= $d['Mesa'] ?></td>
-                    <?php }?>
+                        <td colspan="6" style="height: 40px;"></td> <!-- Esto añade un hueco en toda la fila -->
                 </tr>
+                <tr>
+                        <td ><?= $d['Jugador'] ?></td>
+                        <td><?= $d['Juego'] ?></td>
+                        <td ><?= $d['Fecha'] ?></td>
+                        <td><?= $d['Puntos Liga'] ?></td>
+                        <td ><?= $d['Puntos Juego'] ?></td>
+                        <td><?= $d['Mesa'] ?></td>
+                    </tr>
+                    <?php
+                    $juegoComodin = $d['Juego'];
+                    $mesaComodin = $d['Mesa']; ?>
+
+                    <?php }
+                    ?>
+                </tr>
+                <?php } ?>
             </div>
     
         </table>
