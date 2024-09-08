@@ -6,17 +6,16 @@
                         <li class="nav-item"><a href="ProximasPartidas.php" class="nav-link px-2 text-white">Partidas</a></li>
                         <li class="nav-item"><a href="juegos.php" class="nav-link px-2 text-white">Juegos</a></li>
                         <li class="nav-item"><a href="clasificacion.php" class="nav-link px-2 text-white">Clasificación</a></li>
-                        <li class="nav-item"><a href="emparejamientos.php" class="nav-link px-2 text-white">Emparejamientos</a></li>
+                        
                         <?php
                                 if (strtoupper($_SESSION['permiso']) == "SI") { ?>
+                                    <li class="nav-item"><a href="emparejamientos.php" id="blanco" class="nav-link px-2 text-white">Emparejamientos</a></li>
                                  
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="gestion.php">Gestion Liga</a>
-                                    </li> <?php
-                                        } else { ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="agotado">Gestion Liga</a>
-                                    </li>
+                                    <li class="nav-item"><a class="nav-link" id="blanco" href="gestion.php">Gestion Liga</a></li> 
+                                    <?php
+                                } else { ?>
+                                    <li class="nav-item"><a id="agotado" class="nav-link px-2 text-white">Emparejamientos</a></li>
+                                    <li class="nav-item"> <a class="nav-link" id="agotado">Gestion Liga</a></li>
                                 <?php } ?>
                     </ul>
                     <div class="text-center">

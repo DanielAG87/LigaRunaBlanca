@@ -80,17 +80,20 @@ $_SESSION['ultima_actividad'] = time();
                                 <li class="nav-item">
                                         <a class="nav-link" id="blanco" href="clasificacion.php">Clasificación</a>
                                 </li>
-                                <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="emparejamientos.php">Emparejamientos</a>
-                                </li>
+                           
 
                                 <?php
                                 if (strtoupper($_SESSION['permiso']) == "SI") { ?>
-                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="blanco" href="emparejamientos.php">Emparejamientos</a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="blanco" href="gestion.php">Gestion Liga</a>
                                     </li> <?php
-                                        } else { ?>
+                                } else { ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="agotado">Emparejamientos</a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="agotado">Gestion Liga</a>
                                     </li>
@@ -104,7 +107,7 @@ $_SESSION['ultima_actividad'] = time();
             </div>
             <div class="col-md-2 d-flex align-items-center justify-content-center">
                 <div class="d-flex flex-column align-items-center">
-                    <span class="pr-3 mr-2 mb-2" id="spanNombre">Bienvenido <?=$_SESSION['nombre']?></span>
+                    <span class="pr-3 mr-2 mb-2" id="spanNombre">Bienvenido/a <?=$_SESSION['nombre']?></span>
                     <form method="post" action="index.php">
                         <button type="submit" id="descon" name="descon" value="descon" class="btn btn-outline-warning ml-4">Desconectar</button>
                     </form>
