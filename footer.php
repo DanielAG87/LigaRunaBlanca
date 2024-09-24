@@ -19,7 +19,7 @@
                                 <?php } ?>
                     </ul>
                     <div class="text-center">
-                        <span class="text-white" id="spanFooter">© 2023-2025 Asociación Runa Blanca</span>
+                        <span class="text-white" id="spanFooter">© 2023-2026 Asociación Runa Blanca</span>
                         <a class="text-muted" id="" href="https://www.facebook.com/asociacionrunablanca"><i class="bi bi-facebook iconoBlanco"></i></a>
                         <a class="text-muted" href="https://www.instagram.com/asociacion_runa_blanca/"><i class="bi bi-instagram iconoBlanco"></i></a>
                     </div>
