@@ -20,7 +20,7 @@ try {
     $devolverJuegos = mysqli_fetch_all($JJuego);
 
 
-    $fecha = $con->prepare('SELECT idfechaPartida, DATE_FORMAT(fecha, "%d-%m-%Y") AS fecha FROM  fechaspartidas ORDER BY MONTH(fecha), DAY(fecha) ;');
+    $fecha = $con->prepare('SELECT idfechaPartida, DATE_FORMAT(fecha, "%d-%m-%Y") AS fecha FROM  fechaspartidas ORDER BY YEAR(fecha), MONTH(fecha), DAY(fecha) ;');
     $fecha->execute();
     $FFecha = $fecha->get_result();
     $devolverFechas = mysqli_fetch_all($FFecha);

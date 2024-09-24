@@ -3,7 +3,7 @@ function conectarBD(){
     $servidor = "127.0.0.1";
     $usuario = 'root';
     $pass = "";
-    $baseDatos = "ligarunablanca";
+    $baseDatos = "ligarunablanca2";
     $puerto = 3307;
 
     $conexion = mysqli_connect($servidor, $usuario, $pass, $baseDatos, $puerto);

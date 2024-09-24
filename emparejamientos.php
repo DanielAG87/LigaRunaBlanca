@@ -31,6 +31,8 @@ $contadorJugadores = 0;
 <div id="emparejamientos"></div>
 
 
+<?php include("footer.php"); ?>
+
 <script>
     function verificarCheckBox(){
         const checkboxes = document.querySelectorAll('#tablaGPT input[type="checkbox"]');

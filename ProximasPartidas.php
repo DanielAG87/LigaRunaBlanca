@@ -22,7 +22,7 @@ $fechaModificada = date_format($objetoFecha, 'm/d/Y');
 $totalEventos = mysqli_query(
     $con,'SELECT DATE_FORMAT(fecha, "%d-%m-%Y") AS fecha
             FROM fechasPartidas
-            ORDER BY MONTH(fecha), DAY(fecha);');
+            ORDER BY YEAR(fecha), MONTH(fecha), DAY(fecha);');
 
 
 

@@ -60,14 +60,21 @@ include "headerV2.php";
 
     <div class="col-md-6 p-md-3 pt-5">
       <div class="row "> <!-- align-items-center -->
-        <div class="col-md-6 pb-5" id="datoAso">
+        <!-- <div class="col-md-6 pb-5" id="datoAso">
           <h3 class=""><u>Junta Directiva</u></h3><br />
           <p><strong>Líder Supremo:</strong> <em>Julio Cesar de Roma</em></p>
           <p><strong>Vicepresidente: </strong><em>Rubén Gómez Martínez</em></p>
           <p><strong>Secretario: </strong><em>Sofía López González</em></p>
           <p><strong>Organizador: </strong><em>Daniel Agustín Arroyo</em></p>
+        </div> -->
 
+        <div class="col-md-6 pb-5 d-flex flex-column align-items-center" id="datoAso" >
+          <h3 class=""><u>Colaboradores</u></h3><br />
+          <img src="./img/logo centro joven.png" class="d-block w-20" alt="..." style="width: 32%;"> </br>
+          <img src="./img/logo Marchamalo.png" class="d-block w-20" alt="..."> </br>
+          <img src="./img/logo dark comic.jpeg" class="d-block w-20" alt="..." style="width: 32%;"> </br>
         </div>
+
         <div class="col-md-6 datoAso2" id="datoAso">
           <h3 class=""><u>Datos Asociación</u></h3><br />
           <p><strong>Domicilio: </strong><em>Calle de los músicos, 2 19180 Marchamalo, Guadalajara </em></p>
