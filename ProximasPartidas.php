@@ -4,7 +4,7 @@ $con = conectarBD();
 // crono
 $fecha = mysqli_query(
     $con,
-    'SELECT fecha FROM fechaspartidas WHERE fecha > CURDATE()
+    'SELECT fecha FROM fechasPartidas WHERE fecha > CURDATE()
     ORDER BY ABS(DATEDIFF(fecha, CURDATE())) LIMIT 1;'
 );
 

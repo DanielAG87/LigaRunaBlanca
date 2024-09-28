@@ -12,37 +12,145 @@ if (!empty($_REQUEST['bLogin']) && !empty($_REQUEST['correo']) && !empty($_REQUE
         $contra = sha1($_REQUEST['contra']);
 
 
-        try {
-            $con = conectarBD();
-            $filtrar = $con->prepare("SELECT * FROM jugadores  WHERE correoElectronico = ? AND contraseña = ?");
-            $filtrar->bind_param("ss", $correo, $contra);
-            $filtrar->execute();
-            $resultFiltrar = $filtrar->get_result(); 
-        } catch (Exception $e) {
-            echo "Error : " . $e->getMessage();
-        }
+    //     try {
+    //         $con = conectarBD();
+    //         $filtrar = $con->prepare("SELECT * FROM jugadores  WHERE correoElectronico = ? AND contraseña = ?");
+    //         $filtrar->bind_param("ss", $correo, $contra);
+    //         $filtrar->execute();
+    //         $resultFiltrar = $filtrar->get_result(); 
+    //     } catch (Exception $e) {
+    //         echo "Error : " . $e->getMessage();
+    //     }
 
-        mysqli_close($con);
-        if ($resultFiltrar->num_rows === 1) {
+    //     $con->close();
+    //     if ($resultFiltrar->num_rows === 1) {
 
-            while ($row = $resultFiltrar->fetch_assoc()) {
-                $_SESSION['id'] = $row["id_socio"];
-                $_SESSION['nombre'] = $row["nombre"];
-                $_SESSION['apellido1'] = $row["apellido1"];
-                $_SESSION['correo'] = $row["correo"];
-                $_SESSION['permiso'] = $row["permiso"];
-                // $_SESSION['pase'] = $pase;
-            }
-            $pase = true;
-            header("Location: inicio.php");
-            exit;
+    //         while ($row = $resultFiltrar->fetch_assoc()) {
+    //             $_SESSION['id'] = $row["id_socio"];
+    //             $_SESSION['nombre'] = $row["nombre"];
+    //             $_SESSION['apellido1'] = $row["apellido1"];
+    //             $_SESSION['correo'] = $row["correo"];
+    //             $_SESSION['permiso'] = $row["permiso"];
+    //             // $_SESSION['pase'] = $pase;
+    //         }
+    //         $pase = true;
+    //         header("Location: inicio.php");
+    //         exit;
+    //     }
+    // }
+    // else{
+    //     header("Location: index.php");
+    //     exit;
+    // }
+
+
+
+
+    
+    $conexion = conectarBD();
+    // forma alejandro
+    $queEmp_1 = "SELECT * FROM jugadores  WHERE correoElectronico = '$correo' and contrasenia = '$contra'";
+    $resEmp_1 = $conexion->query($queEmp_1) or die($conexion->error);
+    if ($resEmp_1->num_rows > 0) {
+        while($row = $resEmp_1->fetch_assoc()) {
+            $_SESSION['id'] = $row["id_socio"];
+            $_SESSION['nombre'] = $row["nombre"];
+            $_SESSION['apellido1'] = $row["apellido1"];
+            $_SESSION['correo'] = $row["correo"];
+            $_SESSION['permiso'] = $row["permiso"];
         }
+        $pase = true;
+        header("Location: inicio.php");
+        exit;
     }
-    else{
+    else {
         header("Location: index.php");
         exit;
     }
+
+    // Cerramos la consulta preparada
+    mysqli_stmt_close($stmt);
+
+
+
+
+
+
+
+
+
+        // // Conectamos a la base de datos
+        // $con = conectarBD();
+
+        // // Preparamos la consulta SQL para verificar el usuario
+        // $sql = "SELECT * FROM jugadores WHERE correoElectronico = ? AND contraseña = ?";
+
+        // // Creamos la consulta preparada
+        // if ($stmt = mysqli_prepare($con, $sql)) {
+            
+        //     // Vinculamos los parámetros de entrada (dos strings)
+        //     mysqli_stmt_bind_param($stmt, "ss", $correo, $contra);
+            
+        //     // Ejecutamos la consulta
+        //     mysqli_stmt_execute($stmt);
+
+        //     // Obtenemos el resultado
+        //     $resultFiltrar = mysqli_stmt_get_result($stmt);
+
+        //     // Verificamos si hemos encontrado un usuario
+        //     if (mysqli_num_rows($resultFiltrar) === 1) {
+                
+        //         while ($row = $resultFiltrar->fetch_assoc()) {
+        //             $_SESSION['id'] = $row["id_socio"];
+        //             $_SESSION['nombre'] = $row["nombre"];
+        //             $_SESSION['apellido1'] = $row["apellido1"];
+        //             $_SESSION['correo'] = $row["correo"];
+        //             $_SESSION['permiso'] = $row["permiso"];
+        //             // $_SESSION['pase'] = $pase;
+        //         }
+        //         $pase = true;
+        //         header("Location: inicio.php");
+        //         exit;
+        //     } else {
+        //         echo "Correo o contraseña incorrectos";
+        //     }
+
+        //     // Cerramos la consulta preparada
+        //     mysqli_stmt_close($stmt);
+
+        // } 
+        // else{
+        //     header("Location: index.php");
+        //     exit;
+        // }
+        // // Cerramos la conexión a la base de datos
+        // mysqli_close($con);
+    }
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
