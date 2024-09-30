@@ -49,8 +49,28 @@ if (!empty($_REQUEST['bLogin']) && !empty($_REQUEST['correo']) && !empty($_REQUE
     
     $conexion = conectarBD();
     // forma alejandro
-    $queEmp_1 = "SELECT * FROM jugadores  WHERE correoElectronico = '$correo' and contrasenia = '$contra'";
-    $resEmp_1 = $conexion->query($queEmp_1) or die($conexion->error);
+    // $queEmp_1 = "SELECT * FROM jugadores  WHERE correoElectronico = '$correo' and contrasenia = '$contra'";
+    // $resEmp_1 = $conexion->query($queEmp_1) or die($conexion->error);
+
+    // Consulta SQL segura utilizando prepared statements
+    $queEmp_1 = $conexion->prepare("SELECT * FROM jugadores WHERE correoElectronico = ? AND contrasenia = ?");
+
+    // Verifica si la consulta se preparó correctamente
+    if ($queEmp_1 === false) {
+        die("Error al preparar la consulta: " . $conexion->error);
+    }
+
+    // Asigna los parámetros a la consulta (el tipo "s" es para strings, ya que tanto correo como contraseña son cadenas)
+    $queEmp_1->bind_param("ss", $correo, $contra);
+
+    // Ejecuta la consulta
+    $queEmp_1->execute();
+
+    // Obtiene el resultado de la consulta
+    $resEmp_1 = $queEmp_1->get_result();
+
+
+
     if ($resEmp_1->num_rows > 0) {
         while($row = $resEmp_1->fetch_assoc()) {
             $_SESSION['id'] = $row["id_socio"];

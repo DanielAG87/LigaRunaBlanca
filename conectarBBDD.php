@@ -38,7 +38,11 @@ function conectarBD(){
     if ($conexion->connect_error) {
         die("Connection failed: " . $conexion->connect_error);
     }
-    // Close the connection
+    // Establecer el charset a utf8
+    if (!$conexion->set_charset("utf8")) {
+        die("Error al cargar el conjunto de caracteres utf8: " . $conexion->error);
+    }
+        // Close the connection
     return $conexion;
 } 
 

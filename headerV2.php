@@ -32,7 +32,7 @@ $_SESSION['ultima_actividad'] = time();
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta name="author" content=" Daniel Agustín Arroyo ">
     <meta name="generator" content=" Visual Studio Code ">
     <meta name="date" content=" 20/04/2023">
