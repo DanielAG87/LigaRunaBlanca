@@ -79,7 +79,8 @@ include "headerV2.php";
           <h3 class=""><u>Datos Asociación</u></h3><br />
           <p><strong>Domicilio: </strong><em>Calle de los músicos, 2 19180 Marchamalo, Guadalajara </em></p>
           <p><strong>Correo: </strong><em>runablanca@gmail.com</em></p>
-          <p><strong>CIF: </strong><em>82080366J </em></p>
+          <p><strong>CIF: </strong><em>82080366J </em></p>  
+          <p><strong>Organizacion liga: </strong><em>liga.runablanca@gmail.com </em></p>
         </div>
       </div>
     </div>

@@ -218,7 +218,7 @@ if (!empty($_REQUEST['descon']) || empty($_REQUEST) || empty($_SESSION)) {
 
                 <input type="submit" value="Entrar" class="btn btn-outline-warning" id="bLogin" name="bLogin" />
             </form><br>
-            <p id="h1Login">Si no tiene acceso, póngase en contacto con el administrador</p>
+            <p id="h1Login">Si no tiene acceso, póngase en contacto con el administrador:  "liga.runablanca@gmail.com"</p>
         </div>
     <?php
 } ?>

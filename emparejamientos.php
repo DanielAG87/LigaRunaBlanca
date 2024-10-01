@@ -22,10 +22,11 @@ $contadorJugadores = 0;
             </label><br>
         <?php
             $contadorJugadores++;
-        } ?>
+        } ?> </br>
         <button type="button" id="" class="btn btn-outline-primary m-2 " onclick="verificarCheckBox()">Generar Nuevas Mesas</button>
     </div>
 </div>
+
 
 
 <div id="emparejamientos"></div>
