@@ -64,13 +64,24 @@ mysqli_close($con);
             </tr>
             <?php
             foreach ($devolverClasificacion as $j) {?>
-                <tr>
+                <tr <?php if ($j[0] == "Oriol Torija") { echo 'style="border: 2px solid red;"'; } ?>>
+                <!-- Mostrar mensaje adicional solo si es "Oriol Torija" -->
+                <?php if ($j[0] == "Oriol Torija") { ?>
+                    <td colspan="4"><strong> ⇧ ⇧ Top Oriol ⇧ ⇧</strong></td> <!-- Mensaje resaltado en una celda completa -->
+                </tr>
+                <tr >
                     <td><?= $j[0] ?></td>
                     <td><?= $j[1] ?></td>
                     <td><?= $j[3] ?></td>
                     <td><?= $j[2] ?></td>
-                    
-                </tr>
+                <?php } else { ?>
+                    <td><?= $j[0] ?></td>
+                    <td><?= $j[1] ?></td>
+                    <td><?= $j[3] ?></td>
+                    <td><?= $j[2] ?></td>
+                <?php } ?>
+            </tr>
+
 
             <?php 
             } ?>

@@ -48,7 +48,7 @@ include "headerV2.php";
 <!-- Fin Carusel -->
 
 
-<div class="container-fluid pt-6" id="mapaDatos">
+<div class="container-fluid pt-6 pr-2" id="mapaDatos">
   <div class="row align-items-center">
     <div class="col-md-6">
       <div class="d-flex justify-content-center">
@@ -68,19 +68,43 @@ include "headerV2.php";
           <p><strong>Organizador: </strong><em>Daniel Agustín Arroyo</em></p>
         </div> -->
 
-        <div class="col-md-6 pb-5 d-flex flex-column align-items-center" id="datoAso" >
+        <!-- <div class="col-md-6 pb-5 d-flex flex-column align-items-center" id="datoAso" >
           <h3 class=""><u>Colaboradores</u></h3><br />
           <img src="./img/logo centro joven.png" class="d-block w-20" alt="..." style="width: 32%;"> </br>
           <img src="./img/logo Marchamalo.png" class="d-block w-20" alt="..."> </br>
           <img src="./img/logo dark comic.jpeg" class="d-block w-20" alt="..." style="width: 32%;"> </br>
+          <img src="./img/jupiter.jpg" class="d-block w-20" alt="..." style="width: 32%;"> </br>
+        </div> -->
+        <div class="col-md-6 pb-5 pl-1" id="datoAso">
+          <h3 class="text-center"><u>Colaboradores</u></h3><br />
+          <div class="row">
+            <div class="col-6 d-flex justify-content-center">
+              <img src="./img/logo centro joven.png" class="d-block w-75" alt="..." style="width: 50%; height: 80%;">
+            </div>
+            <div class="col-6 d-flex justify-content-center">
+              <img src="./img/logo Marchamalo.png" class="d-block w-75" alt="..." style="width: 50%; height: 80%;">
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-6 d-flex justify-content-center">
+              <img src="./img/logo dark comic.jpeg" class="d-block w-75" alt="..." style="width: 70%;">
+            </div>
+            <div class="col-6 d-flex justify-content-center">
+              <img src="./img/jupiter.jpg" class="d-block w-75" alt="..." style="width: 70%;">
+            </div>
+          </div>
         </div>
+
 
         <div class="col-md-6 datoAso2" id="datoAso">
           <h3 class=""><u>Datos Asociación</u></h3><br />
-          <p><strong>Domicilio: </strong><em>Calle de los músicos, 2 19180 Marchamalo, Guadalajara </em></p>
+          <!-- <p><strong>Domicilio: </strong><em>Calle de los músicos, 2 19180 Marchamalo, Guadalajara </em></p> -->
           <p><strong>Correo: </strong><em>runablanca@gmail.com</em></p>
-          <p><strong>CIF: </strong><em>82080366J </em></p>  
-          <p><strong>Organizacion liga: </strong><em>liga.runablanca@gmail.com </em></p>
+          <!-- <p><strong>CIF: </strong><em>82080366J </em></p>   -->
+          <p><strong>Correo liga: </strong><em>liga.runablanca@gmail.com </em></p>
+          <p><strong>Organizacion liga: </strong><em>Daniel Agustín </em></p>
+          <p><strong>Organizacion liga: </strong><em>Oriol Torija </em></p>
         </div>
       </div>
     </div>
