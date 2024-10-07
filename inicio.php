@@ -15,23 +15,23 @@ include "headerV2.php";
 
     </div>
     <div class="carousel-inner mb-2">
-      <div class="carousel-item active " data-bs-interval="2000">
+      <div class="carousel-item active " data-bs-interval="3000">
         <img src="./img/aso4Runa.jpg" class="d-block w-100" alt="...">
       </div>
-      <div class="carousel-item" data-bs-interval="2000">
+      <div class="carousel-item" data-bs-interval="3000">
         <img src="./img/aso7.jpg" class="d-block w-100" alt="...">
       </div>
-      <div class="carousel-item" data-bs-interval="2000">
+      <div class="carousel-item" data-bs-interval="3000">
         <img src="./img/asoSolidaria.jpg" class="d-block w-100" alt="...">
       </div>
 
-      <div class="carousel-item" data-bs-interval="2000">
+      <div class="carousel-item" data-bs-interval="3000">
         <img src="./img/aso6.jpg" class="d-block w-100" alt="...">
       </div>
-      <div class="carousel-item" data-bs-interval="2000">
+      <div class="carousel-item" data-bs-interval="3000">
         <img src="./img/aso9.jpg" class="d-block w-100" alt="...">
       </div>
-      <div class="carousel-item" data-bs-interval="2000">
+      <div class="carousel-item" data-bs-interval="3000">
         <img src="./img/terra.jpg" class="d-block w-100" alt="...">
       </div>
     </div>
@@ -79,10 +79,10 @@ include "headerV2.php";
           <h3 class="text-center"><u>Colaboradores</u></h3><br />
           <div class="row">
             <div class="col-6 d-flex justify-content-center">
-              <img src="./img/logo centro joven.png" class="d-block w-75" alt="..." style="width: 50%; height: 80%;">
+              <img src="./img/logo centro joven.png" class="d-block w-100" alt="..." style="width: 100%; height: 80%;">
             </div>
             <div class="col-6 d-flex justify-content-center">
-              <img src="./img/logo Marchamalo.png" class="d-block w-75" alt="..." style="width: 50%; height: 80%;">
+              <img src="./img/logo Marchamalo.png" class="d-block w-75" alt="..." style="width: 100%; height: 90%;">
             </div>
           </div>
           <br />
@@ -103,8 +103,8 @@ include "headerV2.php";
           <p><strong>Correo: </strong><em>runablanca@gmail.com</em></p>
           <!-- <p><strong>CIF: </strong><em>82080366J </em></p>   -->
           <p><strong>Correo liga: </strong><em>liga.runablanca@gmail.com </em></p>
-          <p><strong>Organizacion liga: </strong><em>Daniel Agustín </em></p>
-          <p><strong>Organizacion liga: </strong><em>Oriol Torija </em></p>
+          <p><strong>Organización liga: </strong><em>Daniel Agustín </em></p>
+          <p><strong>Organización liga: </strong><em>Oriol Torija </em></p>
         </div>
       </div>
     </div>

@@ -64,7 +64,20 @@ mysqli_close($con);
             </tr>
             <?php
             foreach ($devolverClasificacion as $j) {?>
-                <tr <?php if ($j[0] == "Oriol Torija") { echo 'style="border: 2px solid red;"'; } ?>>
+                <tr <?php 
+
+                    if ($j[2] >= 3 && $j[2] < 6) {
+                        $j[1] += 1; // Sumar 1 punto a $j[1]
+                    } elseif ($j[2] >= 6 && $j[2] < 9) {
+                        $j[1] += 2; // Sumar 2 puntos a $j[1]
+                    } elseif ($j[2] >= 9 && $j[2] < 10) {
+                        $j[1] += 3; // Sumar 3 puntos a $j[1]
+                    } elseif ($j[2] >= 10) {
+                        $j[1] += 4; // Sumar 4 puntos a $j[1]
+                    }
+                
+                
+                if ($j[0] == "Oriol Torija") { echo 'style="border: 2px solid red;"'; } ?>>
                 <!-- Mostrar mensaje adicional solo si es "Oriol Torija" -->
                 <?php if ($j[0] == "Oriol Torija") { ?>
                     <td colspan="4"><strong> ⇧ ⇧ Top Oriol ⇧ ⇧</strong></td> <!-- Mensaje resaltado en una celda completa -->

@@ -88,14 +88,14 @@ $_SESSION['ultima_actividad'] = time();
                                         <a class="nav-link" id="blanco" href="emparejamientos.php">Emparejamientos</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="gestion.php">Gestion Liga</a>
+                                        <a class="nav-link" id="blanco" href="gestion.php">Gestión Liga</a>
                                     </li> <?php
                                 } else { ?>
                                     <li class="nav-item">
                                         <a class="nav-link" id="agotado">Emparejamientos</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="agotado">Gestion Liga</a>
+                                        <a class="nav-link" id="agotado">Gestión Liga</a>
                                     </li>
                                 <?php } ?>
 

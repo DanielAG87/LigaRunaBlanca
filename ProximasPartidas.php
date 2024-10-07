@@ -80,7 +80,7 @@ mysqli_close($con); ?>
 </div>
 <br>
 <div>
-    <h5 class="text-center  vikingo">Todas las partidas se jugarán a las 17:30 en el centro juvenil de Marchamalo</h5>
+    <h5 class="text-center  vikingo">Todas las partidas se jugarán a las 17:30 en el Espacio para la Creación Joven de Marchamalo</h5>
 </div>
 <br>
 
