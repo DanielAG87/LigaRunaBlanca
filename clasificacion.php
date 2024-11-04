@@ -66,13 +66,13 @@ mysqli_close($con);
             foreach ($devolverClasificacion as $j) {?>
                 <tr <?php 
 
-                    if ($j[2] >= 3 && $j[2] < 6) {
+                    if ($j[3] >= 3 && $j[3] < 6) {
                         $j[1] += 1; // Sumar 1 punto a $j[1]
-                    } elseif ($j[2] >= 6 && $j[2] < 9) {
+                    } elseif ($j[3] >= 6 && $j[3] < 9) {
                         $j[1] += 2; // Sumar 2 puntos a $j[1]
-                    } elseif ($j[2] >= 9 && $j[2] < 10) {
+                    } elseif ($j[3] >= 9 && $j[3] < 10) {
                         $j[1] += 3; // Sumar 3 puntos a $j[1]
-                    } elseif ($j[2] >= 10) {
+                    } elseif ($j[3] >= 10) {
                         $j[1] += 4; // Sumar 4 puntos a $j[1]
                     }
                 

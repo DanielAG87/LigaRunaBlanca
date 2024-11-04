@@ -80,37 +80,93 @@ $_SESSION['ultima_actividad'] = time();
                                 <li class="nav-item">
                                         <a class="nav-link" id="blanco" href="clasificacion.php">Clasificación</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="blanco" href="emparejamientos.php">Emparejamientos</a>
+                                </li>
                            
 
                                 <?php
                                 if (strtoupper($_SESSION['permiso']) == "SI") { ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="blanco" href="emparejamientos.php">Emparejamientos</a>
-                                    </li>
+                                    
                                     <li class="nav-item">
                                         <a class="nav-link" id="blanco" href="gestion.php">Gestión Liga</a>
                                     </li> <?php
                                 } else { ?>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="agotado">Emparejamientos</a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a class="nav-link" id="agotado">Gestión Liga</a>
                                     </li>
                                 <?php } ?>
-
                             </ul>
-
                         </div>
                     </div>
                 </nav>
             </div>
-            <div class="col-md-2 d-flex align-items-center justify-content-center">
+            <!-- <div class="col-md-2 d-flex align-items-center justify-content-center">
                 <div class="d-flex flex-column align-items-center">
                     <span class="pr-3 mr-2 mb-2" id="spanNombre">Bienvenido/a <?=$_SESSION['nombre']?></span>
                     <form method="post" action="index.php">
+                        <button type="submit" id="descon" name="descon" value="descon" class="btn btn-outline-warning ml-4">Cambiar contraseña</button>
                         <button type="submit" id="descon" name="descon" value="descon" class="btn btn-outline-warning ml-4">Desconectar</button>
                     </form>
+                </div>
+            </div> -->
+
+            <!-- <div class="col-md-2 d-flex align-items-center justify-content-center">
+                <div class="d-flex flex-column align-items-center text-center">
+                    <span class="mb-3 mt-1" id="spanNombre">Bienvenido/a <?=$_SESSION['nombre']?></span>
+                    <form method="post" action="index.php" class="d-flex flex-column align-items-center">
+                        <button type="submit" id="descon" name="descon" value="descon" class="btn btn-outline-warning mb-2">Cambiar contraseña</button>
+                        <button type="submit" id="descon" name="descon" value="descon" class="btn btn-outline-warning mb-2" onclick="cambiarContrasenia()">Desconectar</button>
+                    </form>
+                </div>
+            </div> -->
+
+
+            <!-- Botón para abrir el modal -->
+            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                <div class="d-flex flex-column align-items-center text-center">
+                    <span class="mb-3" id="spanNombre">Bienvenido/a <?=$_SESSION['nombre']?></span>
+                    <form method="post" action="index.php" class="d-flex flex-column align-items-center">
+                        <!-- Botón para activar el modal -->
+                        <!-- <button type="button" class="btn btn-outline-warning mb-2" data-bs-toggle="modal" data-bs-target="#cambiarContrasenaModal">
+                            Cambiar contraseña
+                        </button> -->
+                        <!-- Botón para desconectar -->
+                        <button type="submit" id="descon" name="descon" value="descon" class="btn btn-outline-warning mb-2">Desconectar</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="cambiarContrasenaModal" tabindex="-1" aria-labelledby="cambiarContrasenaModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cambiarContrasenaModalLabel">Cambiar contraseña</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Aquí puedes agregar tu formulario para cambiar la contraseña -->
+                        <form method="post" action="cambiar_contrasena.php">
+                            <div class="mb-3">
+                                <label for="contraseniaActual" class="form-label">Contraseña actual</label>
+                                <input type="password" class="form-control" id="contraseniaActual" name="contraseniaActual" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nuevaContra" class="form-label">Nueva contraseña</label>
+                                <input type="password" class="form-control" id="nuevaContra" name="nuevaContra" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmarContra" class="form-label">Confirmar nueva contraseña</label>
+                                <input type="password" class="form-control" id="confirmarContra" name="confirmarContra" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" onclick="cambiarContrasenia()">Guardar cambios</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -118,3 +174,24 @@ $_SESSION['ultima_actividad'] = time();
 </div>
 <body>
     <div class="content">
+
+
+<script>
+    function cambiarContrasenia(){
+    var contraActual = document.getElementById("contraseniaActual").value;
+    var nuevaContra1 = document.getElementById("nuevaContra").value;
+    var nuevacontra2 = document.getElementById("confirmarContra").value;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.body.insertAdjacentHTML('beforeend', this.responseText);
+            // Muestra el modal
+            var modalContra = new bootstrap.Modal(document.getElementById('modalCambioContra-22'));
+            modalContra.show();
+        }
+    };
+    xhttp.open("POST", "funciones/cambioContrasenia(headerV2).php?contraActual=" + contraActual + "&nuevaContra1=" + nuevaContra1 + "&nuevacontra2=" + nuevacontra2, true);
+    xhttp.send();
+}  
+</script>

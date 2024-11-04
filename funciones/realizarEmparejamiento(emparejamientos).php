@@ -1,140 +1,178 @@
 <?php
 
-use function PHPSTORM_META\type;
-
 include_once "../conectarBBDD.php";
 $con = conectarBD();
 
-function sacarNombres($con)
-{
-    
-    //  $valoresMarcados = intval($_REQUEST['valoresMarcados']);
 
-    $NombresJuegos = mysqli_query($con,'SELECT idJuego, nombre FROM juegos');
-    $resultadoNombreJuegos = mysqli_fetch_all($NombresJuegos);
-    $juegos = [];
-    $nombreJugadores = [];
-    
+$query = "DELETE FROM emparejamientos";
+$query2 = "DELETE FROM jugadores_sin_mesa";
 
+if (mysqli_query($con, $query) && mysqli_query($con, $query2)) {
+    echo "Todos los datos han sido eliminados de la tabla emparejamientos y jugadores sin mesa.";
+} else {
+    echo "Error al eliminar los datos: " . mysqli_error($con);
+}
+
+
+function sacarNombres($con) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Obtener el contenido del cuerpo de la solicitud
         $data = file_get_contents('php://input');
-    
-        // Decodificar el JSON en un array asociativo
         $jsonDatos = json_decode($data, true);
-    
-        if (json_last_error() === JSON_ERROR_NONE) {
-            // Extraer el array de valores marcados
-            $valoresMarcados = $jsonDatos['valoresMarcados'];
 
-            // array de jugadores con su id
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $valoresMarcados = $jsonDatos['valoresMarcados'];
             $jugadores = array_map('intval', $valoresMarcados);
 
-
-
-            // sacamos los nombres de los jugadores segun el id que recibimos y los guardamos en un array $nombreJugadores.
-            // for ($i=0; $i < count($jugadores) ; $i++) { 
-
-            //     $nomJuga = $con->prepare("SELECT CONCAT(nombre, ' ', apellido1) AS Jugador FROM jugadores WHERE idJugador = ?");
-            //     $nomJuga->bind_param("i", $jugadores[$i]);
-            //     $nomJuga->execute();
-            //     $resultFiltrar = $nomJuga->get_result();
-            //     while ($row = $resultFiltrar->fetch_assoc()) {
-            //         // $_SESSION['id'] = $row["id_socio"];
-            //         array_push($nombreJugadores, $row["Jugador"]);
-            //     }  
-            // }
-
-            // sacamos el nombre de los jeugos y los guardamos en un array $juegos.
-            foreach ($resultadoNombreJuegos as $j) {
-                array_push($juegos, $j[1]);
+            // Obtener nombres de los jugadores
+            $consultaNombresJugadores = mysqli_query($con, 'SELECT idJugador, CONCAT(nombre, " ", apellido1) AS  nombre_jugador FROM jugadores');
+            $nombreJugadores = [];
+            while ($row = mysqli_fetch_assoc($consultaNombresJugadores)) {
+                $nombreJugadores[intval($row['idJugador'])] = $row['nombre_jugador'];
             }
-            // emparejamientos($juegos, $nombreJugadores);
-            emparejamientos($con, $juegos, $jugadores);
 
+            // Obtener nombres de los juegos
+            $consultaNombresJuegos = mysqli_query($con, 'SELECT idJuego, nombre FROM juegos');
+            $nombreJuegos = [];
+            $juegos = [];
+            while ($row = mysqli_fetch_assoc($consultaNombresJuegos)) {
+                $nombreJuegos[intval($row['idJuego'])] = $row['nombre'];
+                $juegos[] = intval($row['idJuego']);  // Array de IDs de juegos
+            }
+
+            // Obtener los juegos jugados por cada jugador
+            $consultaPartidas = mysqli_query($con, 'SELECT idJugador, GROUP_CONCAT(idJuego ORDER BY idJuego ASC) AS juegos FROM resultados GROUP BY idJugador');
+            $resultadojuegosJugados = mysqli_fetch_all($consultaPartidas);
+
+            // Llamar a la función emparejamientos con los nombres mapeados
+            emparejamientos($con, $juegos, $jugadores, $resultadojuegosJugados, $nombreJugadores, $nombreJuegos);
         } else {
             echo 'Error al decodificar JSON: ' . json_last_error_msg();
         }
     } else {
         echo 'Solicitud no válida';
     }
-    
-
-
-   
 }
 
 
-function emparejamientos($con, $juegos, $jugadores){
-
-   
- // TODO**********************
 
 
-    shuffle($jugadores); // Mezclar jugadores aleatoriamente
-    shuffle($juegos); // Mezclar juegos aleatoriamente
-    $num_jugadores = count($jugadores);
-    $num_juegos = count($juegos);
+
+
+
+
+
+
+function emparejamientos($con, $juegos, $jugadores, $resultadojuegosJugados, $nombreJugadores, $nombreJuegos) {
+    shuffle($jugadores);
+    shuffle($juegos);
+
+    $juegosJugadosPorJugador = [];
+    foreach ($resultadojuegosJugados as $resultado) {
+        $idJugador = intval($resultado[0]);
+        $juegosJugados = explode(",", $resultado[1]);
+        $juegosJugadosPorJugador[$idJugador] = array_map('intval', $juegosJugados);
+    }
+
     $mesas = [];
+    $jugadoresSinMesa = [];
 
+    foreach ($juegos as $indexJuego => $juego) {
+        $mesa = [];
+        
+        foreach ($jugadores as $indexJugador => $jugador) {
+            // Solo agregar jugadores que no han jugado este juego
+            if (!isset($juegosJugadosPorJugador[$jugador]) || !in_array($juego, $juegosJugadosPorJugador[$jugador])) {
+                $mesa[] = $jugador; // Agregar jugador a la mesa
+                unset($jugadores[$indexJugador]); // Eliminar jugador de la lista
 
-    while ($num_jugadores > 0){
-        if ($num_jugadores >= 4){
-            echo "Hola";
+                // Si la mesa tiene 4 jugadores, se puede cerrar
+                if (count($mesa) === 4) {
+                    break;
+                }
+            }
         }
-        if ($num_jugadores == 3){
-            echo "Hola";
-        }
-        if ($num_jugadores < 3){
-            echo "Hola";
+
+        // Si la mesa tiene al menos 3 jugadores, guardamos el emparejamiento
+        if (count($mesa) >= 3) {
+            $mesas[] = [
+                "juego" => $nombreJuegos[$juego],
+                "jugadores" => array_map(function($id) use ($nombreJugadores) {
+                    return $nombreJugadores[$id];
+                }, $mesa)
+            ];
+            unset($juegos[$indexJuego]); // Eliminar el juego que se ha utilizado
+        } else {
+            // Si no se forman mesas, volver a agregar los jugadores no usados
+            // $jugadores = array_merge($jugadores, $mesa);
+            $jugadoresSinMesa = array_merge($jugadoresSinMesa, $mesa);
         }
     }
 
 
 
+        // guardarlo en la base de datos
+    foreach ($mesas as $mesa) {
+        // Guardar en la base de datos
+        $idJuego = array_search($mesa['juego'], $nombreJuegos); // Obtener el ID del juego
+        foreach ($mesa['jugadores'] as $jugadorNombre) {
+            // Obtener el ID del jugador
+            $idJugador = array_search($jugadorNombre, $nombreJugadores);
 
-    // ** desde aqui funciona
+            // Insertar en la tabla emparejamientos
+            $queryInsert = "INSERT INTO emparejamientos (idJuego, idJugador) VALUES ($idJuego, $idJugador)";
+            mysqli_query($con, $queryInsert);
+        }
+    }
 
-    // // Contador para juegos
-    // $juego_index = 0;
 
-    // // Mientras queden jugadores por organizar
-    // while ($num_jugadores > 0) {
-    //     if ($num_jugadores % 4 == 0 || $num_jugadores % 4 == 3 ) {
-    //         // Si quedan 4 jugadores o el resto es divisible por 4, crear una mesa de 4
-    //         $mesa_size = ($num_jugadores >= 4) ? 4 : 3;
-    //     } else {
-    //         // En otros casos, crear una mesa de 3
-    //         $mesa_size = 3;
-    //     }
-        
-    //     // Asignar jugadores a la mesa
-    //     $mesa_jugadores = array_splice($nombreJugadores, 0, $mesa_size);
-    //     $num_jugadores -= $mesa_size;
+    // Guardar jugadores sin mesa en la base de datos
+    foreach ($jugadoresSinMesa as $idJugador) {
+        $queryInsertSinMesa = "INSERT INTO jugadores_sin_mesa (idJugador) VALUES ($idJugador)";
+        mysqli_query($con, $queryInsertSinMesa);
+    }
 
-    //     // Asignar un juego a la mesa
-    //     $mesa_juego = $juegos[$juego_index];
-    //     $juego_index++;
 
-    //     // Añadir la mesa con jugadores y su juego asignado
-    //     $mesas[] = [
-    //         'jugadores' => $mesa_jugadores,
-    //         'juego' => $mesa_juego
-    //     ];
-
-    //     // Verificar si se acabaron los juegos (opcional, si tienes más jugadores que juegos)
-    //     if ($juego_index >= $num_juegos) {
-    //         echo "Error: No hay suficientes juegos para asignar a las mesas.\n";
-    //         break;
-    //     }
+    // // Mostrar las mesas en una tabla HTML con Bootstrap
+    // echo "<h2 class='mt-4 text-center'>Mesas organizadas</h2>";
+    // echo "<table class='table table-striped table-bordered mx-auto' style='max-width: 800px;'>";
+    // echo "<thead class='thead-dark'><tr><th>Juego</th><th>Jugadores</th></tr></thead>";
+    // echo "<tbody>";
+    // foreach ($mesas as $mesa) {
+    //     echo "<tr>";
+    //     echo "<td>{$mesa['juego']}</td>";
+    //     echo "<td>" . implode(", ", $mesa['jugadores']) . "</td>";
+    //     echo "</tr>";
     // }
+    // echo "</tbody>";
+    // echo "</table>";
 
-    // // return $mesas;
-    // print_r($mesas) ;
-
-    // ** hasta aqui funciona
-    mysqli_close($con);
+    // // Mostrar jugadores sin mesa en una lista con Bootstrap
+    // if (!empty($jugadores)) {
+    //     echo "<h2 class='mt-4 text-center'>Jugadores sin mesa</h2>";
+    //     echo "<ul class='list-group mx-auto' style='max-width: 400px;'>";
+    //     foreach ($jugadores as $id) {
+    //         echo "<li class='list-group-item'>{$nombreJugadores[$id]}</li>";
+    //     }
+    //     echo "</ul>";
+    // }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

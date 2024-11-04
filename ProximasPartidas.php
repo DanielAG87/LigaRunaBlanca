@@ -201,7 +201,7 @@ mysqli_close($con); ?>
         //===
         // VARIABLES
         //===
-        const DATE_TARGET = new Date(fechaContador + ' ' + '10:00 AM');
+        const DATE_TARGET = new Date(fechaContador + ' ' + '07:00 PM');
         // DOM 
         const SPAN_dias = document.querySelector('p#dias');
         const SPAN_horas = document.querySelector('p#horas');

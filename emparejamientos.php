@@ -2,75 +2,78 @@
 include_once "conectarBBDD.php";
 $con = conectarBD();
 
-// sacamos los nombres de todos los jugadores
-$NombresJugadores = mysqli_query($con,'SELECT idJugador, CONCAT(nombre, " ", apellido1) AS  "Nombre Jugador" FROM jugadores');
-$resultadoNombreJugadores = mysqli_fetch_all($NombresJugadores);
 
-mysqli_close($con);
+// Consulta para obtener los emparejamientos
+$query = "
+    SELECT e.idJuego, e.idJugador, j.nombre AS nombreJuego, CONCAT(p.nombre, ' ', p.apellido1) AS nombreJugador      
+    FROM emparejamientos e
+    JOIN juegos j ON e.idJuego = j.idJuego
+    JOIN jugadores p ON e.idJugador = p.idJugador
+    ORDER BY e.idJuego, e.idJugador;
+";
 
+$resultado = mysqli_query($con, $query);
 
-$contadorJugadores = 0;
-?>
+if (!$resultado) {
+    echo "Error en la consulta: " . mysqli_error($con);
+    return;
+}
 
-<div class="container">
-    <div id="tablaGPT">
-        
-        <?php 
-        foreach ($resultadoNombreJugadores as $j) {?>
-            <label for="checkbox<?=$contadorJugadores?>">
-                <input type="checkbox" id="checkbox<?=$contadorJugadores?>" name="option1" value="<?= $j[0] ?>">  <?= $j[1] ?>
-            </label><br>
-        <?php
-            $contadorJugadores++;
-        } ?> </br>
-        <button type="button" id="" class="btn btn-outline-primary m-2 " onclick="verificarCheckBox()">Generar Nuevas Mesas</button>
-    </div>
-</div>
+// Agrupar los resultados por juego
+$mesas = [];
 
+while ($fila = mysqli_fetch_assoc($resultado)) {
+    $mesas[$fila['nombreJuego']][] = $fila['nombreJugador'];
+}
 
-
-<div id="emparejamientos"></div>
-
-
-<?php include("footer.php"); ?>
-
-<script>
-    function verificarCheckBox(){
-        const checkboxes = document.querySelectorAll('#tablaGPT input[type="checkbox"]');
-        // Obtener la cantidad total de checkboxes
-        const totalCheckboxes = checkboxes.length;
-        //console.log("Cantidad total de checkboxes:", totalCheckboxes);
-
-        let valoresMarcados = [];
-
-        // Iterar sobre cada checkbox para verificar si está marcado, los marcados guardamos el id del jugador en un array.
-        for (let i = 0; i < totalCheckboxes; i++) {
-            if (checkboxes[i].checked) {
-                // console.log("Checkbox " + (i + 1) + " está marcado.");
-                valoresMarcados.push(checkboxes[i].value);
-            } 
-        }
-        console.log("Valores marcados:", valoresMarcados);
+// Mostrar las mesas en una tabla HTML con Bootstrap
+echo "<h2 class='mt-4 text-center'>Emparejamientos</h2>";
+echo "<table class='table table-striped table-bordered mx-auto' style='max-width: 800px;'>";
+echo "<thead class='thead-dark'><tr><th class='text-center'>Juego</th><th class='text-center'>Jugadores</th></tr></thead>";
+echo "<tbody>";
+foreach ($mesas as $juego => $jugadores) {
+    echo "<tr>";
+    echo "<td class='text-center'>{$juego}</td>";
+    echo "<td class='text-center'>" . implode(" --- ", $jugadores) . "</td>";
+    echo "</tr>";
+}
+echo "</tbody>";
+echo "</table>";
 
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                // falta printarlo
-                console.log('Respuesta del servidor:', this.responseText);
-                document.getElementById('emparejamientos').innerHTML = this.responseText;
-            }
-        };
 
-        // xhttp.open("POST", "funciones/realizarEmparejamiento(emparejamientos).php?valoresMarcados=" + valoresMarcados, true);
 
-        // xhttp.send();
-        xhttp.open("POST", "funciones/realizarEmparejamiento(emparejamientos).php", true);
-        xhttp.setRequestHeader("Content-Type", "application/json");
 
-        // Convertir el array a JSON y enviarlo en el cuerpo de la solicitud
-        xhttp.send(JSON.stringify({ valoresMarcados: valoresMarcados }));
-    }
 
-    
-</script>
+ // Consulta para obtener los jugadores sin mesa
+ $query = "
+ SELECT  CONCAT(j.nombre, ' ', j.apellido1) AS nombreJugador 
+ FROM jugadores_sin_mesa js
+ JOIN jugadores j ON js.idJugador = j.idJugador
+ ORDER BY js.idJugador;
+";
+
+$resultado = mysqli_query($con, $query);
+
+if (!$resultado) {
+ echo "Error en la consulta: " . mysqli_error($con);
+ return;
+}
+
+// Mostrar los jugadores sin mesa en una tabla HTML con Bootstrap
+echo "<h2 class='mt-4 text-center'>Jugadores sin mesa</h2>";
+echo "<table class='table table-striped table-bordered mx-auto' style='max-width: 400px;'>";
+echo "<thead class='thead-dark'><tr><th class='text-center'>Nombre</th></tr></thead>";
+echo "<tbody>";
+
+while ($fila = mysqli_fetch_assoc($resultado)) {
+ echo "<tr>";
+ echo "<td class='text-center'>{$fila['nombreJugador']}</td>";
+ echo "</tr>";
+}
+
+echo "</tbody>";
+echo "</table>";
+
+ include("footer.php"); ?>
+
