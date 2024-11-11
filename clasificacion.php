@@ -57,12 +57,14 @@ mysqli_close($con);
     <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered text-center" id="tablaGPT">
             <tr>
-                <th>Jugador</td>
-                <th>Puntos Liga</td>
-                <th>Días Asistencia</td>
-                <th>Total Puntos Juegos</td>
+                <th>Posición</th>
+                <th>Jugador</th>
+                <th>Puntos Liga</th>
+                <th>Días Asistencia</th>
+                <th>Total Puntos Juegos</th>
             </tr>
             <?php
+            $contadorPosicion = 1;
             foreach ($devolverClasificacion as $j) {?>
                 <tr <?php 
 
@@ -83,11 +85,13 @@ mysqli_close($con);
                     <td colspan="4"><strong> ⇧ ⇧ Top Oriol ⇧ ⇧</strong></td> <!-- Mensaje resaltado en una celda completa -->
                 </tr>
                 <tr >
+                    <td><?= $contadorPosicion ?></td>
                     <td><?= $j[0] ?></td>
                     <td><?= $j[1] ?></td>
                     <td><?= $j[3] ?></td>
                     <td><?= $j[2] ?></td>
                 <?php } else { ?>
+                    <td><?= $contadorPosicion ?></td>
                     <td><?= $j[0] ?></td>
                     <td><?= $j[1] ?></td>
                     <td><?= $j[3] ?></td>
@@ -96,7 +100,7 @@ mysqli_close($con);
             </tr>
 
 
-            <?php 
+            <?php  $contadorPosicion += 1;
             } ?>
 
         </table>
