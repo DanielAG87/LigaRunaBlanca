@@ -4,7 +4,7 @@ include_once "conectarBBDD.php";
 try {
     $con = conectarBD();
 
-    $filtrar = $con->prepare('SELECT * FROM  juegos;');
+    $filtrar = $con->prepare('SELECT * FROM  juegos ORDER BY nombre');
     $filtrar->execute();
     $juegos = $filtrar->get_result();
     $devolverJuegos = mysqli_fetch_all($juegos);
