@@ -4,46 +4,34 @@ include_once "conectarBBDD.php";
 try {
     $con = conectarBD();
 
-    // $clasificacion = mysqli_query($con, 
-    //     'SELECT 
-    //         juga.nombre AS nombre_jugador, 
-    //         sum(r.puntosLiga) AS puntosLiga,
-    //         sum(r.puntosJuego) AS puntosJuego
-    //     FROM resultados r
-    //     JOIN jugadores juga ON r.idJugador = juga.idJugador
-    //     JOIN juegos juego ON r.idJuego = juego.idJuego
-    //     JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
-    //     GROUP BY nombre_jugador
-    //     ORDER BY puntosLiga DESC;');
-
-
-
+    // Consulta SQL con cálculo directo de puntos adicionales
     $filtrar = $con->prepare('SELECT
-                CONCAT(juga.nombre, " ", juga.apellido1) AS  nombre_jugador, 
-                sum(r.puntosLiga) AS puntosLiga,
-                sum(r.puntosJuego) AS puntosJuego,
-                count(r.idJugador) AS asistencia
-            FROM resultados r
-            JOIN jugadores juga ON r.idJugador = juga.idJugador
-            JOIN juegos juego ON r.idJuego = juego.idJuego
-            JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
-            GROUP BY nombre_jugador
-            ORDER BY puntosLiga DESC, asistencia DESC, puntosJuego DESC;');
+            CONCAT(juga.nombre, " ", juga.apellido1) AS nombre_jugador,
+            sum(r.puntosLiga) +
+            CASE
+                WHEN count(r.idJugador) >= 3 AND count(r.idJugador) < 6 THEN 1
+                WHEN count(r.idJugador) >= 6 AND count(r.idJugador) < 9 THEN 2
+                WHEN count(r.idJugador) >= 9 AND count(r.idJugador) < 10 THEN 3
+                WHEN count(r.idJugador) >= 10 THEN 4
+                ELSE 0
+            END AS puntosLiga,
+            sum(r.puntosJuego) AS puntosJuego,
+            count(r.idJugador) AS asistencia
+        FROM resultados r
+        JOIN jugadores juga ON r.idJugador = juga.idJugador
+        JOIN juegos juego ON r.idJuego = juego.idJuego
+        JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
+        GROUP BY nombre_jugador
+        ORDER BY puntosLiga DESC, asistencia DESC, puntosJuego DESC;');
+
     $filtrar->execute();
     $clasificacion = $filtrar->get_result();
-    $devolverClasificacion = mysqli_fetch_all($clasificacion);
-    
-
-} 
-catch (Exception $e) {
+    $devolverClasificacion = mysqli_fetch_all($clasificacion, MYSQLI_ASSOC); // Obtener datos como array asociativo
+} catch (Exception $e) {
     echo "Error : " . $e->getMessage();
 }
 
 mysqli_close($con);
-
-
-
-
 ?>
 <br>
 <br>
@@ -51,7 +39,6 @@ mysqli_close($con);
    <h3 class="text-center h3 text-primary vikingo"><u>CLASIFICACIÓN</u></h3>
 </div>
 <br>
-
 
 <div class="container-fluid" id="tablaFull">
     <div class="table-responsive">
@@ -65,51 +52,34 @@ mysqli_close($con);
             </tr>
             <?php
             $contadorPosicion = 1;
-            foreach ($devolverClasificacion as $j) {?>
+            foreach ($devolverClasificacion as $j) { ?>
                 <tr <?php 
-
-                    if ($j[3] >= 3 && $j[3] < 6) {
-                        $j[1] += 1; // Sumar 1 punto a $j[1]
-                    } elseif ($j[3] >= 6 && $j[3] < 9) {
-                        $j[1] += 2; // Sumar 2 puntos a $j[1]
-                    } elseif ($j[3] >= 9 && $j[3] < 10) {
-                        $j[1] += 3; // Sumar 3 puntos a $j[1]
-                    } elseif ($j[3] >= 10) {
-                        $j[1] += 4; // Sumar 4 puntos a $j[1]
-                    }
-                
-                
-                if ($j[0] == "Oriol Torija") { echo 'style="border: 2px solid red;"'; } ?>>
-                <!-- Mostrar mensaje adicional solo si es "Oriol Torija" -->
-                <?php if ($j[0] == "Oriol Torija") { ?>
-                    <td colspan="4"><strong> ⇧ ⇧ Top Oriol ⇧ ⇧</strong></td> <!-- Mensaje resaltado en una celda completa -->
+                // Resaltar la fila si es "Oriol Torija"
+                if ($j['nombre_jugador'] == "Oriol Torija") {
+                    echo 'style="border: 2px solid red;"'; 
+                } ?>>
+                <?php if ($j['nombre_jugador'] == "Oriol Torija") { ?>
+                    <!-- Mostrar mensaje adicional solo si es "Oriol Torija" -->
+                    <td colspan="4"><strong> ⇧ ⇧ Top Oriol ⇧ ⇧</strong></td>
                 </tr>
-                <tr >
+                <tr>
                     <td><?= $contadorPosicion ?></td>
-                    <td><?= $j[0] ?></td>
-                    <td><?= $j[1] ?></td>
-                    <td><?= $j[3] ?></td>
-                    <td><?= $j[2] ?></td>
+                    <td><?= $j['nombre_jugador'] ?></td>
+                    <td><?= $j['puntosLiga'] ?></td>
+                    <td><?= $j['asistencia'] ?></td>
+                    <td><?= $j['puntosJuego'] ?></td>
                 <?php } else { ?>
                     <td><?= $contadorPosicion ?></td>
-                    <td><?= $j[0] ?></td>
-                    <td><?= $j[1] ?></td>
-                    <td><?= $j[3] ?></td>
-                    <td><?= $j[2] ?></td>
+                    <td><?= $j['nombre_jugador'] ?></td>
+                    <td><?= $j['puntosLiga'] ?></td>
+                    <td><?= $j['asistencia'] ?></td>
+                    <td><?= $j['puntosJuego'] ?></td>
                 <?php } ?>
             </tr>
-
-
-            <?php  $contadorPosicion += 1;
+            <?php  
+                $contadorPosicion += 1; 
             } ?>
-
         </table>
     </div>
 </div>
 </br>
-
-
-
-
-
-<?php include("footer.php"); ?>
