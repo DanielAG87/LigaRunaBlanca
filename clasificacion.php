@@ -40,46 +40,66 @@ mysqli_close($con);
 </div>
 <br>
 
+
 <div class="container-fluid" id="tablaFull">
     <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered text-center" id="tablaGPT">
-            <tr>
-                <th>Posición</th>
-                <th>Jugador</th>
-                <th>Puntos Liga</th>
-                <th>Días Asistencia</th>
-                <th>Total Puntos Juegos</th>
-            </tr>
-            <?php
-            $contadorPosicion = 1;
-            foreach ($devolverClasificacion as $j) { ?>
-                <tr <?php 
-                // Resaltar la fila si es "Oriol Torija"
-                if ($j['nombre_jugador'] == "Oriol Torija") {
-                    echo 'style="border: 2px solid red;"'; 
-                } ?>>
-                <?php if ($j['nombre_jugador'] == "Oriol Torija") { ?>
-                    <!-- Mostrar mensaje adicional solo si es "Oriol Torija" -->
-                    <td colspan="4"><strong> ⇧ ⇧ Top Oriol ⇧ ⇧</strong></td>
-                </tr>
+            <thead>
                 <tr>
-                    <td><?= $contadorPosicion ?></td>
-                    <td><?= $j['nombre_jugador'] ?></td>
-                    <td><?= $j['puntosLiga'] ?></td>
-                    <td><?= $j['asistencia'] ?></td>
-                    <td><?= $j['puntosJuego'] ?></td>
-                <?php } else { ?>
-                    <td><?= $contadorPosicion ?></td>
-                    <td><?= $j['nombre_jugador'] ?></td>
-                    <td><?= $j['puntosLiga'] ?></td>
-                    <td><?= $j['asistencia'] ?></td>
-                    <td><?= $j['puntosJuego'] ?></td>
-                <?php } ?>
-            </tr>
-            <?php  
-                $contadorPosicion += 1; 
-            } ?>
+                    <th>Posición</th>
+                    <th>Jugador</th>
+                    <th>Puntos Liga</th>
+                    <th>Días Asistencia</th>
+                    <th>Total Puntos Juegos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $contadorPosicion = 1;
+                foreach ($devolverClasificacion as $j) {
+                    // Determinar el color de la celda según la posición
+                    $colorPosicion = '';
+                    if ($contadorPosicion == 1) {
+                        $colorPosicion = 'background-color: gold;';  // Oro
+                    } elseif ($contadorPosicion == 2) {
+                        $colorPosicion = 'background-color: silver;';  // Plata
+                    } elseif ($contadorPosicion == 3) {
+                        $colorPosicion = 'background-color: #cd7f32;';  // Bronce
+                    }
+                    ?>
+                    <?php if ($j['nombre_jugador'] == "Oriol Torija") { ?>
+                        <!-- Fila resaltada con mensaje adicional para "Oriol Torija" -->
+                        <tr style="border: 2px solid red;">
+                            <td colspan="5"><strong> ⇧ ⇧ Top Oriol ⇧ ⇧</strong></td> <!-- Ahora ocupa las 5 columnas -->
+                        </tr>
+                        <tr>
+                            <td style="<?= $colorPosicion ?>"><?= $contadorPosicion ?></td> <!-- Color según la posición -->
+                            <td><?= $j['nombre_jugador'] ?></td>
+                            <td><?= $j['puntosLiga'] ?></td>
+                            <td><?= $j['asistencia'] ?></td>
+                            <td><?= $j['puntosJuego'] ?></td>
+                        </tr>
+                    <?php } else { ?>
+                        <!-- Fila normal para otros jugadores -->
+                        <tr>
+                            <td style="<?= $colorPosicion ?>"><?= $contadorPosicion ?></td> <!-- Color según la posición -->
+                            <td><?= $j['nombre_jugador'] ?></td>
+                            <td><?= $j['puntosLiga'] ?></td>
+                            <td><?= $j['asistencia'] ?></td>
+                            <td><?= $j['puntosJuego'] ?></td>
+                        </tr>
+                    <?php } ?>
+                <?php  
+                    $contadorPosicion += 1; 
+                } ?>
+            </tbody>
         </table>
     </div>
 </div>
-</br>
+
+
+
+
+<?php
+include "footer.php";
+?>
