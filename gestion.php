@@ -8,7 +8,7 @@ $fechaHoy = new DateTime();
 $con = conectarBD();
 
 try {
-    $gente = $con->prepare('SELECT idJugador, nombre, apellido1 FROM  jugadores;');
+    $gente = $con->prepare('SELECT idJugador, nombre, apellido1 FROM  jugadores');
     $gente->execute();
     $Jugadores = $gente->get_result();
     $devolverJugadores = mysqli_fetch_all($Jugadores);
@@ -105,7 +105,8 @@ catch (Exception $e) {
 
 
 // sacamos los nombres de todos los jugadores
-$NombresJugadores = mysqli_query($con,'SELECT idJugador, CONCAT(nombre, " ", apellido1) AS  "Nombre Jugador" FROM jugadores');
+// $NombresJugadores = mysqli_query($con,'SELECT idJugador, CONCAT(nombre, " ", apellido1) AS  "Nombre Jugador" FROM jugadores ORDER BY "Nombre Jugador"');
+$NombresJugadores = mysqli_query($con, 'SELECT idJugador, CONCAT(nombre, " ", apellido1) AS `Nombre Jugador` FROM jugadores ORDER BY `Nombre Jugador`');
 $resultadoNombreJugadores = mysqli_fetch_all($NombresJugadores);
 
 mysqli_close($con);

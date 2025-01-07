@@ -62,6 +62,80 @@ function sacarNombres($con) {
 
 
 
+// function emparejamientos($con, $juegos, $jugadores, $resultadojuegosJugados, $nombreJugadores, $nombreJuegos) {
+//     shuffle($jugadores);
+//     shuffle($juegos);
+
+//     $juegosJugadosPorJugador = [];
+//     foreach ($resultadojuegosJugados as $resultado) {
+//         $idJugador = intval($resultado[0]);
+//         $juegosJugados = explode(",", $resultado[1]);
+//         $juegosJugadosPorJugador[$idJugador] = array_map('intval', $juegosJugados);
+//     }
+
+//     $mesas = [];
+//     $jugadoresSinMesa = [];
+
+//     foreach ($juegos as $indexJuego => $juego) {
+//         $mesa = [];
+        
+//         foreach ($jugadores as $indexJugador => $jugador) {
+//             // Solo agregar jugadores que no han jugado este juego
+//             if (!isset($juegosJugadosPorJugador[$jugador]) || !in_array($juego, $juegosJugadosPorJugador[$jugador])) {
+//                 $mesa[] = $jugador; // Agregar jugador a la mesa
+//                 unset($jugadores[$indexJugador]); // Eliminar jugador de la lista
+
+//                 // Si la mesa tiene 4 jugadores, se puede cerrar
+//                 if (count($mesa) === 4) {
+//                     break;
+//                 }
+//             }
+//         }
+
+//         // Si la mesa tiene al menos 3 jugadores, guardamos el emparejamiento
+//         if (count($mesa) >= 3) {
+//             $mesas[] = [
+//                 "juego" => $nombreJuegos[$juego],
+//                 "jugadores" => array_map(function($id) use ($nombreJugadores) {
+//                     return $nombreJugadores[$id];
+//                 }, $mesa)
+//             ];
+//             unset($juegos[$indexJuego]); // Eliminar el juego que se ha utilizado
+//         } else {
+//             // Si no se forman mesas, volver a agregar los jugadores no usados
+//             // $jugadores = array_merge($jugadores, $mesa);
+//             $jugadoresSinMesa = array_merge($jugadoresSinMesa, $mesa);
+//         }
+//     }
+
+
+
+//         // guardarlo en la base de datos
+//     foreach ($mesas as $mesa) {
+//         // Guardar en la base de datos
+//         $idJuego = array_search($mesa['juego'], $nombreJuegos); // Obtener el ID del juego
+//         foreach ($mesa['jugadores'] as $jugadorNombre) {
+//             // Obtener el ID del jugador
+//             $idJugador = array_search($jugadorNombre, $nombreJugadores);
+
+//             // Insertar en la tabla emparejamientos
+//             $queryInsert = "INSERT INTO emparejamientos (idJuego, idJugador) VALUES ($idJuego, $idJugador)";
+//             mysqli_query($con, $queryInsert);
+//         }
+//     }
+
+
+//     // Guardar jugadores sin mesa en la base de datos
+//     foreach ($jugadoresSinMesa as $idJugador) {
+//         $queryInsertSinMesa = "INSERT INTO jugadores_sin_mesa (idJugador) VALUES ($idJugador)";
+//         mysqli_query($con, $queryInsertSinMesa);
+//     }
+
+
+// }
+
+
+
 function emparejamientos($con, $juegos, $jugadores, $resultadojuegosJugados, $nombreJugadores, $nombreJuegos) {
     shuffle($jugadores);
     shuffle($juegos);
@@ -75,100 +149,76 @@ function emparejamientos($con, $juegos, $jugadores, $resultadojuegosJugados, $no
 
     $mesas = [];
     $jugadoresSinMesa = [];
+    $numJugadores = count($jugadores);
 
-    foreach ($juegos as $indexJuego => $juego) {
+    while ($numJugadores > 0) {
+        // Decide el tamaño de la próxima mesa
+        $mesaSize = ($numJugadores >= 8 || $numJugadores === 4) ? 4 : 3;
+
         $mesa = [];
-        
-        foreach ($jugadores as $indexJugador => $jugador) {
-            // Solo agregar jugadores que no han jugado este juego
-            if (!isset($juegosJugadosPorJugador[$jugador]) || !in_array($juego, $juegosJugadosPorJugador[$jugador])) {
-                $mesa[] = $jugador; // Agregar jugador a la mesa
-                unset($jugadores[$indexJugador]); // Eliminar jugador de la lista
+        $juego = null;
 
-                // Si la mesa tiene 4 jugadores, se puede cerrar
-                if (count($mesa) === 4) {
-                    break;
+        foreach ($juegos as $indexJuego => $juegoActual) {
+            $mesa = [];
+            foreach ($jugadores as $indexJugador => $jugador) {
+                // Agregar jugadores que no han jugado este juego
+                if (!isset($juegosJugadosPorJugador[$jugador]) || !in_array($juegoActual, $juegosJugadosPorJugador[$jugador])) {
+                    $mesa[] = $jugador;
+                    unset($jugadores[$indexJugador]);
+                    $numJugadores--;
+
+                    // Si se alcanza el tamaño de la mesa, se detiene
+                    if (count($mesa) === $mesaSize) {
+                        break;
+                    }
                 }
+            }
+
+            // Si se formó la mesa, se guarda y se elimina el juego
+            if (count($mesa) === $mesaSize) {
+                $juego = $juegoActual;
+                unset($juegos[$indexJuego]);
+                break;
+            } else {
+                // Si no se logra completar, se reintegran los jugadores a la lista
+                foreach ($mesa as $jugador) {
+                    $jugadores[] = $jugador;
+                    $numJugadores++;
+                }
+                $mesa = [];
             }
         }
 
-        // Si la mesa tiene al menos 3 jugadores, guardamos el emparejamiento
-        if (count($mesa) >= 3) {
+        if ($juego && count($mesa) > 0) {
             $mesas[] = [
                 "juego" => $nombreJuegos[$juego],
-                "jugadores" => array_map(function($id) use ($nombreJugadores) {
+                "jugadores" => array_map(function ($id) use ($nombreJugadores) {
                     return $nombreJugadores[$id];
-                }, $mesa)
+                }, $mesa),
             ];
-            unset($juegos[$indexJuego]); // Eliminar el juego que se ha utilizado
         } else {
-            // Si no se forman mesas, volver a agregar los jugadores no usados
-            // $jugadores = array_merge($jugadores, $mesa);
-            $jugadoresSinMesa = array_merge($jugadoresSinMesa, $mesa);
+            // Si no se puede formar más mesas, agrega jugadores a la lista de sin mesa
+            $jugadoresSinMesa = array_merge($jugadoresSinMesa, $jugadores);
+            break;
         }
     }
 
-
-
-        // guardarlo en la base de datos
+    // Guardar mesas en la base de datos
     foreach ($mesas as $mesa) {
-        // Guardar en la base de datos
         $idJuego = array_search($mesa['juego'], $nombreJuegos); // Obtener el ID del juego
         foreach ($mesa['jugadores'] as $jugadorNombre) {
-            // Obtener el ID del jugador
-            $idJugador = array_search($jugadorNombre, $nombreJugadores);
-
-            // Insertar en la tabla emparejamientos
+            $idJugador = array_search($jugadorNombre, $nombreJugadores); // Obtener el ID del jugador
             $queryInsert = "INSERT INTO emparejamientos (idJuego, idJugador) VALUES ($idJuego, $idJugador)";
             mysqli_query($con, $queryInsert);
         }
     }
-
 
     // Guardar jugadores sin mesa en la base de datos
     foreach ($jugadoresSinMesa as $idJugador) {
         $queryInsertSinMesa = "INSERT INTO jugadores_sin_mesa (idJugador) VALUES ($idJugador)";
         mysqli_query($con, $queryInsertSinMesa);
     }
-
-
-    // // Mostrar las mesas en una tabla HTML con Bootstrap
-    // echo "<h2 class='mt-4 text-center'>Mesas organizadas</h2>";
-    // echo "<table class='table table-striped table-bordered mx-auto' style='max-width: 800px;'>";
-    // echo "<thead class='thead-dark'><tr><th>Juego</th><th>Jugadores</th></tr></thead>";
-    // echo "<tbody>";
-    // foreach ($mesas as $mesa) {
-    //     echo "<tr>";
-    //     echo "<td>{$mesa['juego']}</td>";
-    //     echo "<td>" . implode(", ", $mesa['jugadores']) . "</td>";
-    //     echo "</tr>";
-    // }
-    // echo "</tbody>";
-    // echo "</table>";
-
-    // // Mostrar jugadores sin mesa en una lista con Bootstrap
-    // if (!empty($jugadores)) {
-    //     echo "<h2 class='mt-4 text-center'>Jugadores sin mesa</h2>";
-    //     echo "<ul class='list-group mx-auto' style='max-width: 400px;'>";
-    //     foreach ($jugadores as $id) {
-    //         echo "<li class='list-group-item'>{$nombreJugadores[$id]}</li>";
-    //     }
-    //     echo "</ul>";
-    // }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
