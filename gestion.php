@@ -8,7 +8,7 @@ $fechaHoy = new DateTime();
 $con = conectarBD();
 
 try {
-    $gente = $con->prepare('SELECT idJugador, nombre, apellido1 FROM  jugadores');
+    $gente = $con->prepare('SELECT idJugador, nombre, apellido1 FROM  jugadores ORDER BY nombre, apellido1');
     $gente->execute();
     $Jugadores = $gente->get_result();
     $devolverJugadores = mysqli_fetch_all($Jugadores);

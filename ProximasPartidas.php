@@ -29,18 +29,17 @@ $totalEventos = mysqli_query(
 // partidas ya jugadas
 $historico = mysqli_query(
     $con,'SELECT 
-            CONCAT(juga.nombre, " ", juga.apellido1) AS  Jugador, 
-            juego.nombre AS Juego, 
-            DATE_FORMAT(fecha.fecha, "%d-%m-%Y") AS Fecha, 
-            r.puntosLiga AS "Puntos Liga",
-            r.puntosJuego AS "Puntos Juego",
-            r.mesa AS Mesa
+        CONCAT(juga.nombre, " ", juga.apellido1) AS Jugador, juego.nombre AS Juego, 
+        DATE_FORMAT(fecha.fecha, "%d-%m-%Y") AS Fecha, 
+        r.puntosLiga AS "Puntos Liga",
+        r.puntosJuego AS "Puntos Juego",
+        r.mesa AS Mesa
         FROM resultados r
         JOIN jugadores juga ON r.idJugador = juga.idJugador
         JOIN juegos juego ON r.idJuego = juego.idJuego
         JOIN fechasPartidas fecha ON r.idFecha = fecha.idfechaPartida
-        ORDER BY  Fecha, Mesa, r.puntosLiga DESC;');
-
+        ORDER BY YEAR(fecha.fecha) ASC, MONTH(fecha.fecha) ASC, fecha.fecha ASC, Mesa, r.puntosLiga DESC'
+);
 
 
 
