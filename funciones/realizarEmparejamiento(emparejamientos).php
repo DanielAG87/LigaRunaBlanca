@@ -136,10 +136,96 @@ function sacarNombres($con) {
 
 
 
+// function emparejamientos($con, $juegos, $jugadores, $resultadojuegosJugados, $nombreJugadores, $nombreJuegos) {
+//     shuffle($jugadores);
+//     shuffle($juegos);
+
+//     $juegosJugadosPorJugador = [];
+//     foreach ($resultadojuegosJugados as $resultado) {
+//         $idJugador = intval($resultado[0]);
+//         $juegosJugados = explode(",", $resultado[1]);
+//         $juegosJugadosPorJugador[$idJugador] = array_map('intval', $juegosJugados);
+//     }
+
+//     $mesas = [];
+//     $jugadoresSinMesa = [];
+//     $numJugadores = count($jugadores);
+
+//     while ($numJugadores > 0) {
+//         // Decide el tamaño de la próxima mesa
+//         $mesaSize = ($numJugadores >= 8 || $numJugadores === 4) ? 4 : 3;
+
+//         $mesa = [];
+//         $juego = null;
+
+//         foreach ($juegos as $indexJuego => $juegoActual) {
+//             $mesa = [];
+//             foreach ($jugadores as $indexJugador => $jugador) {
+//                 // Agregar jugadores que no han jugado este juego
+//                 if (!isset($juegosJugadosPorJugador[$jugador]) || !in_array($juegoActual, $juegosJugadosPorJugador[$jugador])) {
+//                     $mesa[] = $jugador;
+//                     unset($jugadores[$indexJugador]);
+//                     $numJugadores--;
+
+//                     // Si se alcanza el tamaño de la mesa, se detiene
+//                     if (count($mesa) === $mesaSize) {
+//                         break;
+//                     }
+//                 }
+//             }
+
+//             // Si se formó la mesa, se guarda y se elimina el juego
+//             if (count($mesa) === $mesaSize) {
+//                 $juego = $juegoActual;
+//                 unset($juegos[$indexJuego]);
+//                 break;
+//             } else {
+//                 // Si no se logra completar, se reintegran los jugadores a la lista
+//                 foreach ($mesa as $jugador) {
+//                     $jugadores[] = $jugador;
+//                     $numJugadores++;
+//                 }
+//                 $mesa = [];
+//             }
+//         }
+
+//         if ($juego && count($mesa) > 0) {
+//             $mesas[] = [
+//                 "juego" => $nombreJuegos[$juego],
+//                 "jugadores" => array_map(function ($id) use ($nombreJugadores) {
+//                     return $nombreJugadores[$id];
+//                 }, $mesa),
+//             ];
+//         } else {
+//             // Si no se puede formar más mesas, agrega jugadores a la lista de sin mesa
+//             $jugadoresSinMesa = array_merge($jugadoresSinMesa, $jugadores);
+//             break;
+//         }
+//     }
+
+//     // Guardar mesas en la base de datos
+//     foreach ($mesas as $mesa) {
+//         $idJuego = array_search($mesa['juego'], $nombreJuegos); // Obtener el ID del juego
+//         foreach ($mesa['jugadores'] as $jugadorNombre) {
+//             $idJugador = array_search($jugadorNombre, $nombreJugadores); // Obtener el ID del jugador
+//             $queryInsert = "INSERT INTO emparejamientos (idJuego, idJugador) VALUES ($idJuego, $idJugador)";
+//             mysqli_query($con, $queryInsert);
+//         }
+//     }
+
+//     // Guardar jugadores sin mesa en la base de datos
+//     foreach ($jugadoresSinMesa as $idJugador) {
+//         $queryInsertSinMesa = "INSERT INTO jugadores_sin_mesa (idJugador) VALUES ($idJugador)";
+//         mysqli_query($con, $queryInsertSinMesa);
+//     }
+// }
+
+
 function emparejamientos($con, $juegos, $jugadores, $resultadojuegosJugados, $nombreJugadores, $nombreJuegos) {
     shuffle($jugadores);
     shuffle($juegos);
 
+    // Mapear los juegos ya jugados por cada jugador
     $juegosJugadosPorJugador = [];
     foreach ($resultadojuegosJugados as $resultado) {
         $idJugador = intval($resultado[0]);
@@ -149,77 +235,85 @@ function emparejamientos($con, $juegos, $jugadores, $resultadojuegosJugados, $no
 
     $mesas = [];
     $jugadoresSinMesa = [];
+
+    // Calcular cómo repartir en mesas de 4 y 3
     $numJugadores = count($jugadores);
+    $numMesas4 = intdiv($numJugadores, 4);
+    $resto = $numJugadores % 4;
 
-    while ($numJugadores > 0) {
-        // Decide el tamaño de la próxima mesa
-        $mesaSize = ($numJugadores >= 8 || $numJugadores === 4) ? 4 : 3;
+    // Si sobran 1 o 2 jugadores, conviene convertir una mesa de 4 en mesa de 3
+    if ($resto === 1 || $resto === 2) {
+        $numMesas4 = max(0, $numMesas4 - 1);
+        $resto += 4; // ahora sobran 5 o 6 -> que serán 2 mesas de 3
+    }
+    $numMesas3 = intdiv($resto, 3);
 
+    $numTotalMesas = $numMesas4 + $numMesas3;
+
+    // Crear las mesas según el plan
+    for ($m = 0; $m < $numTotalMesas; $m++) {
+        $tamMesa = ($m < $numMesas4) ? 4 : 3;
         $mesa = [];
-        $juego = null;
 
+        // Buscar un juego adecuado que aún quede
+        $juego = null;
         foreach ($juegos as $indexJuego => $juegoActual) {
+            // Intentar formar mesa con jugadores que no hayan jugado ese juego
             $mesa = [];
             foreach ($jugadores as $indexJugador => $jugador) {
-                // Agregar jugadores que no han jugado este juego
                 if (!isset($juegosJugadosPorJugador[$jugador]) || !in_array($juegoActual, $juegosJugadosPorJugador[$jugador])) {
                     $mesa[] = $jugador;
                     unset($jugadores[$indexJugador]);
-                    $numJugadores--;
-
-                    // Si se alcanza el tamaño de la mesa, se detiene
-                    if (count($mesa) === $mesaSize) {
-                        break;
-                    }
+                    if (count($mesa) === $tamMesa) break;
                 }
             }
 
-            // Si se formó la mesa, se guarda y se elimina el juego
-            if (count($mesa) === $mesaSize) {
+            if (count($mesa) === $tamMesa) {
                 $juego = $juegoActual;
                 unset($juegos[$indexJuego]);
                 break;
             } else {
-                // Si no se logra completar, se reintegran los jugadores a la lista
+                // Devolver jugadores si no se pudo completar la mesa
                 foreach ($mesa as $jugador) {
                     $jugadores[] = $jugador;
-                    $numJugadores++;
                 }
-                $mesa = [];
             }
         }
 
-        if ($juego && count($mesa) > 0) {
-            $mesas[] = [
-                "juego" => $nombreJuegos[$juego],
-                "jugadores" => array_map(function ($id) use ($nombreJugadores) {
-                    return $nombreJugadores[$id];
-                }, $mesa),
-            ];
-        } else {
-            // Si no se puede formar más mesas, agrega jugadores a la lista de sin mesa
-            $jugadoresSinMesa = array_merge($jugadoresSinMesa, $jugadores);
-            break;
+        // Si no se encontró juego o no se pudo completar mesa
+        if (!$juego || count($mesa) < $tamMesa) {
+            // Si faltan jugadores, guárdalos como sin mesa
+            $jugadoresSinMesa = array_merge($jugadoresSinMesa, $mesa);
+            continue;
         }
+
+        // Guardar la mesa
+        $mesas[] = [
+            "juego" => $nombreJuegos[$juego],
+            "jugadores" => array_map(function($id) use ($nombreJugadores) {
+                return $nombreJugadores[$id];
+            }, $mesa)
+        ];
     }
 
-    // Guardar mesas en la base de datos
+    // Insertar mesas en la base de datos
+    $numMesa = 1;
     foreach ($mesas as $mesa) {
-        $idJuego = array_search($mesa['juego'], $nombreJuegos); // Obtener el ID del juego
+        $idJuego = array_search($mesa['juego'], $nombreJuegos);
         foreach ($mesa['jugadores'] as $jugadorNombre) {
-            $idJugador = array_search($jugadorNombre, $nombreJugadores); // Obtener el ID del jugador
-            $queryInsert = "INSERT INTO emparejamientos (idJuego, idJugador) VALUES ($idJuego, $idJugador)";
+            $idJugador = array_search($jugadorNombre, $nombreJugadores);
+            $queryInsert = "INSERT INTO emparejamientos (idMesa, idJuego, idJugador) VALUES ($numMesa, $idJuego, $idJugador)";
             mysqli_query($con, $queryInsert);
         }
+        $numMesa++;
     }
 
-    // Guardar jugadores sin mesa en la base de datos
+    // Guardar jugadores sin mesa
     foreach ($jugadoresSinMesa as $idJugador) {
         $queryInsertSinMesa = "INSERT INTO jugadores_sin_mesa (idJugador) VALUES ($idJugador)";
         mysqli_query($con, $queryInsertSinMesa);
     }
 }
-
 
 
 

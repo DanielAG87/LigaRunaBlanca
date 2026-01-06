@@ -28,9 +28,9 @@ include "headerV2.php";
       <div class="carousel-item" data-bs-interval="3000">
         <img src="./img/aso6.jpg" class="d-block w-100" alt="...">
       </div>
-      <div class="carousel-item" data-bs-interval="3000">
+      <!-- <div class="carousel-item" data-bs-interval="3000">
         <img src="./img/aso9.jpg" class="d-block w-100" alt="...">
-      </div>
+      </div> -->
       <div class="carousel-item" data-bs-interval="3000">
         <img src="./img/terra.jpg" class="d-block w-100" alt="...">
       </div>
