@@ -259,7 +259,7 @@ try {
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
     const ctx = document.getElementById('graficoPuntos');
@@ -303,11 +303,132 @@ try {
             }
         }
     });
+</script> -->
+
+
+
+
+
+<!-- <h3>Evolución de puntos (Gráfico de líneas)</h3>
+<canvas id="graficoLineas" height="100"></canvas>
+
+
+
+<script>
+const ctxLineas = document.getElementById('graficoLineas');
+
+new Chart(ctxLineas, {
+    type: 'line',  // <--- gráfico de líneas
+    data: {
+        labels: <?= json_encode($labels) ?>, // nombres de los juegos
+        datasets: [{
+            label: 'Puntos de Liga',
+            data: <?= json_encode($puntos) ?>,
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            fill: false,      // no relleno bajo la línea
+            tension: 0.3,     // curva suave
+            pointRadius: 5,   // tamaño de los puntos
+            pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.parsed.y + ' puntos';
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Puntos de Liga'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Juego'
+                },
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 45,
+                    minRotation: 45
+                }
+            }
+        }
+    }
+});
+</script> -->
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('graficoPuntos');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($labels) ?>,
+            datasets: [{
+                label: 'Puntos de Liga',
+                data: <?= json_encode($puntos) ?>,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                fill: false, // no relleno bajo la línea
+                tension: 0.3, // curva suave
+                pointRadius: 5, // tamaño de los puntos
+                pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.parsed.y + ' puntos';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        autoSkip: false,
+                        // maxRotation: 45,
+                        // minRotation: 45
+                        font: {
+                            weight: 'bold' // <-- pone los nombres en negrita
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 // <-- fuerza solo enteros
+                    },
+                }
+            }
+        }
+    });
 </script>
-
-
-
-
 
 
 

@@ -82,7 +82,7 @@ $jugadorActual = $_SESSION['nombre'] . ' ' . $_SESSION['apellido1'];
                     <?php }
                     if ($j['nombre_jugador'] === $jugadorActual) { ?>
                         <tr>
-                            <td class="fw-bold" style="<?= $colorPosicion ?>"><?= $contadorPosicion ?></td> <!-- Color según la posición -->
+                            <td class="fw-bold" style="<?= $colorPosicion ?>">👉  <?= $contadorPosicion ?> 👈</td> <!-- Color según la posición -->
                             <td class="fw-bold"><?= $j['nombre_jugador'] ?></td>
                             <td class="fw-bold"><?= $j['puntosLiga'] ?></td>
                             <td class="fw-bold"><?= $j['asistencia'] ?></td>
