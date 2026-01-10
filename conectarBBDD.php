@@ -18,7 +18,9 @@ function conectarBD(){
 
 
     // para local
-    $conexion = new mysqli("127.0.0.1", "root", "", "ligarunablanca2",3307);
+    // $conexion = new mysqli("127.0.0.1", "root", "", "ligarunablanca2",3307);
+    $conexion = new mysqli("127.0.0.1", "root", "", "ligarunablanca22526",3307);
+
  
 
     // Check connection

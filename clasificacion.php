@@ -9,10 +9,10 @@ try {
             CONCAT(juga.nombre, " ", juga.apellido1) AS nombre_jugador,
             sum(r.puntosLiga) +
             CASE
-                WHEN count(r.idJugador) >= 3 AND count(r.idJugador) < 6 THEN 1
-                WHEN count(r.idJugador) >= 6 AND count(r.idJugador) < 9 THEN 2
-                WHEN count(r.idJugador) >= 9 AND count(r.idJugador) < 10 THEN 3
-                WHEN count(r.idJugador) >= 10 THEN 4
+                WHEN count(r.idJugador) >= 3 AND count(r.idJugador) < 6 THEN 2
+                WHEN count(r.idJugador) >= 6 AND count(r.idJugador) < 9 THEN 4
+                -- WHEN count(r.idJugador) >= 9 AND count(r.idJugador) < 10 THEN 6
+                WHEN count(r.idJugador) >= 9 THEN 6
                 ELSE 0
             END AS puntosLiga,
             sum(r.puntosJuego) AS puntosJuego,

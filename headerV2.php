@@ -83,6 +83,9 @@ $_SESSION['ultima_actividad'] = time();
                                 <li class="nav-item">
                                     <a class="nav-link" id="blanco" href="emparejamientos.php">Emparejamientos</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="blanco" href="miLiga.php">Mi Liga</a>
+                                </li>
                            
 
                                 <?php
