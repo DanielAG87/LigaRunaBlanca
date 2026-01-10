@@ -1,5 +1,5 @@
 <?php include "headerV2.php";
-include_once "conectarBBDD.php"; 
+include_once "conectarBBDD.php";
 
 try {
     $con = conectarBD();
@@ -32,11 +32,15 @@ try {
 }
 
 mysqli_close($con);
+
+
+$jugadorActual = $_SESSION['nombre'] . ' ' . $_SESSION['apellido1'];
+
 ?>
 <br>
 <br>
 <div>
-   <h3 class="text-center h3 text-primary vikingo"><u>CLASIFICACIÓN</u></h3>
+    <h3 class="text-center h3 text-primary vikingo"><u>CLASIFICACIÓN</u></h3>
 </div>
 <br>
 
@@ -66,20 +70,26 @@ mysqli_close($con);
                     } elseif ($contadorPosicion == 3) {
                         $colorPosicion = 'background-color: #cd7f32;';  // Bronce
                     }
-                    ?>
+                ?>
                     <?php if ($j['nombre_jugador'] == "Oriol Torija") { ?>
                         <!-- Fila resaltada con mensaje adicional para "Oriol Torija" -->
                         <tr style="border: 2px solid red;">
                             <td colspan="5"><strong> ⇧ ⇧ Top Oriol ⇧ ⇧</strong></td> <!-- Ahora ocupa las 5 columnas -->
                         </tr>
+
+
+
+                    <?php }
+                    if ($j['nombre_jugador'] === $jugadorActual) { ?>
                         <tr>
-                            <td style="<?= $colorPosicion ?>"><?= $contadorPosicion ?></td> <!-- Color según la posición -->
-                            <td><?= $j['nombre_jugador'] ?></td>
-                            <td><?= $j['puntosLiga'] ?></td>
-                            <td><?= $j['asistencia'] ?></td>
-                            <td><?= $j['puntosJuego'] ?></td>
+                            <td class="fw-bold" style="<?= $colorPosicion ?>"><?= $contadorPosicion ?></td> <!-- Color según la posición -->
+                            <td class="fw-bold"><?= $j['nombre_jugador'] ?></td>
+                            <td class="fw-bold"><?= $j['puntosLiga'] ?></td>
+                            <td class="fw-bold"><?= $j['asistencia'] ?></td>
+                            <td class="fw-bold"><?= $j['puntosJuego'] ?></td>
                         </tr>
-                    <?php } else { ?>
+                    <?php
+                    } else { ?>
                         <!-- Fila normal para otros jugadores -->
                         <tr>
                             <td style="<?= $colorPosicion ?>"><?= $contadorPosicion ?></td> <!-- Color según la posición -->
@@ -89,8 +99,8 @@ mysqli_close($con);
                             <td><?= $j['puntosJuego'] ?></td>
                         </tr>
                     <?php } ?>
-                <?php  
-                    $contadorPosicion += 1; 
+                <?php
+                    $contadorPosicion += 1;
                 } ?>
             </tbody>
         </table>
