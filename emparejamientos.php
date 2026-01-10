@@ -26,6 +26,10 @@ while ($fila = mysqli_fetch_assoc($resultado)) {
     $mesas[$fila['idMesa']][$fila['nombreJuego']][] = $fila['nombreJugador'];
 }
 
+
+$jugadorActual = $_SESSION['nombre'] . ' ' . $_SESSION['apellido1'];
+
+
 // ---- CSS extra para un estilo más claro ----
 echo "
 <style>
@@ -81,7 +85,13 @@ foreach ($mesas as $idMesa => $juegos) {
         echo "<tr>";
         echo "<td class='mesa-juego align-middle'>{$nombreJuego}</td>";
         foreach ($jugadores as $jugador) {
-            echo "<td>{$jugador}</td>";
+            if($jugadorActual === $jugador){
+                echo "<td class='fw-bold text-success'>👉 {$jugador} 👈</td>";
+            }
+            else{
+                echo "<td>{$jugador}</td>";
+            }
+            
         }
         for ($i = count($jugadores); $i < 4; $i++) {
             echo "<td class='text-muted'>—</td>";
@@ -117,7 +127,13 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
 
     $contadorCeldas = 0;
     while ($fila = mysqli_fetch_assoc($resultado)) {
-        echo "<td>{$fila['nombreJugador']}</td>";
+        if($jugadorActual === $fila['nombreJugador']){
+            echo "<td class='fw-bold text-success'>👉 {$fila['nombreJugador']} 👈</td>";
+        }
+        else{
+             echo "<td>{$fila['nombreJugador']}</td>";
+        }
+       
         $contadorCeldas++;
         if ($contadorCeldas % 4 === 0) echo "</tr><tr>";
     }
