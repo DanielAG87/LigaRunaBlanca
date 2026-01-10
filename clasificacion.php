@@ -11,7 +11,6 @@ try {
             CASE
                 WHEN count(r.idJugador) >= 3 AND count(r.idJugador) < 6 THEN 2
                 WHEN count(r.idJugador) >= 6 AND count(r.idJugador) < 9 THEN 4
-                -- WHEN count(r.idJugador) >= 9 AND count(r.idJugador) < 10 THEN 6
                 WHEN count(r.idJugador) >= 9 THEN 6
                 ELSE 0
             END AS puntosLiga,

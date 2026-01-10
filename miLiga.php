@@ -5,7 +5,6 @@ $con = conectarBD();
 
 
 
-
 // selecccionamos el id del jugador que inicia sesion
 try {
     $filtrar = $con->prepare(
@@ -18,29 +17,11 @@ try {
     $resultFiltrar = $filtrar->get_result();
     $fila = $resultFiltrar->fetch_assoc();
     $idJugador = $fila['idJugador'];
-    // echo $idJugador;
+
     $filtrar->close();
 
 
 
-
-
-    //     $resumen = $con->prepare("
-    //     SELECT 
-    //         COUNT(idResultado) AS partidas,
-    //         SUM(puntosLiga) + CASE
-    //                 WHEN count(r.idJugador) >= 3 AND count(r.idJugador) < 6 THEN 2
-    //                 WHEN count(r.idJugador) >= 6 AND count(r.idJugador) < 9 THEN 4
-    //                 WHEN count(r.idJugador) >= 9 THEN 6
-    //                 ELSE 0
-    //             END AS puntosLiga,
-    //         SUM(puntosJuego) AS totalJuego,
-    //         AVG(puntosLiga) AS mediaLiga,
-    //         MAX(puntosLiga) AS mejor,
-    //         MIN(puntosLiga) AS peor
-    //     FROM resultados
-    //     WHERE idJugador = ?
-    // ");
 
     $resumen = $con->prepare("
     SELECT 
@@ -96,15 +77,7 @@ try {
     $resultHistorial = $historial->get_result();
 
 
-    //     $grafico = $con->prepare("
-    //     SELECT 
-    //         f.fecha,
-    //         r.puntosLiga
-    //     FROM resultados r
-    //     JOIN fechasPartidas f ON r.idFecha = f.idfechaPartida
-    //     WHERE r.idJugador = ?
-    //     ORDER BY f.fecha
-    // ");
+
     $grafico = $con->prepare("
     SELECT 
         f.fecha,
@@ -122,13 +95,7 @@ try {
     $grafico->execute();
     $resultGrafico = $grafico->get_result();
 
-    // $fechas = [];
-    // $puntos = [];
 
-    // while ($row = $resultGrafico->fetch_assoc()) {
-    //     $fechas[] = $row['fecha'];
-    //     $puntos[] = $row['puntosLiga'];
-    // }
     $labels = [];
     $puntos = [];
 
@@ -256,119 +223,6 @@ try {
 </div>
 
 
-
-
-
-<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-    const ctx = document.getElementById('graficoPuntos');
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: <?= json_encode($labels) ?>,
-            datasets: [{
-                label: 'Puntos de Liga',
-                data: <?= json_encode($puntos) ?>,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderRadius: 6
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.parsed.y + ' puntos';
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 45,
-                        minRotation: 45
-                    }
-                },
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script> -->
-
-
-
-
-
-<!-- <h3>Evolución de puntos (Gráfico de líneas)</h3>
-<canvas id="graficoLineas" height="100"></canvas>
-
-
-
-<script>
-const ctxLineas = document.getElementById('graficoLineas');
-
-new Chart(ctxLineas, {
-    type: 'line',  // <--- gráfico de líneas
-    data: {
-        labels: <?= json_encode($labels) ?>, // nombres de los juegos
-        datasets: [{
-            label: 'Puntos de Liga',
-            data: <?= json_encode($puntos) ?>,
-            borderColor: 'rgba(54, 162, 235, 1)',
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            fill: false,      // no relleno bajo la línea
-            tension: 0.3,     // curva suave
-            pointRadius: 5,   // tamaño de los puntos
-            pointBackgroundColor: 'rgba(54, 162, 235, 1)'
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: true
-            },
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        return context.parsed.y + ' puntos';
-                    }
-                }
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Puntos de Liga'
-                }
-            },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Juego'
-                },
-                ticks: {
-                    autoSkip: false,
-                    maxRotation: 45,
-                    minRotation: 45
-                }
-            }
-        }
-    }
-});
-</script> -->
 
 
 
